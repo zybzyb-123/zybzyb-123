@@ -1,0 +1,1000 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="专注于分享开发经验的博客网站。">
+  <meta name="author" content="Yibo Zhao">
+  <meta name="keywords" content="">
+  
+  <title>Zhaoio</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://gitee.com/zyb_01_01/blog-images/raw/master/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="我们还有一生的奇迹！">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/08/11/%E6%89%8B%E5%86%99%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" target="_self">
+          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/001.jpg" srcset="/img/loading.gif" lazyload alt="手写单例模式">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/08/11/%E6%89%8B%E5%86%99%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" target="_self">
+          手写单例模式
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/08/11/%E6%89%8B%E5%86%99%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" target="_self">
+          
+          
+            
+          
+          单例模式
+确保一个类只有一个实例，并提供一个全局的访问点。
+简单来说单利模式需要保证在整个程序的生命周期中，单例类只存在一个可访问的的实例。这样的应用场景有很多，如线程池或数据库连接池在程序中通常只允许存在一份实例，这时就可以通过单利模式来保证。
+
+饿汉模式
+直接创建实例对象，不管你是否需要这个对象都会创建
+
+123456public class Singleton1 &#123;    publ
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-11 21:43" pubdate>
+              2021-08-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%9C%BA%E6%99%AF%E9%A2%98/">场景题</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/08/11/%E6%89%8B%E5%86%99%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85/" target="_self">
+          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/002.jpg" srcset="/img/loading.gif" lazyload alt="手写生产者消费者模式">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/08/11/%E6%89%8B%E5%86%99%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85/" target="_self">
+          手写生产者消费者模式
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/08/11/%E6%89%8B%E5%86%99%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85/" target="_self">
+          
+          
+            
+          
+          用多线程模拟生产者消费者模式
+
+在线程世界里，生产者就是生产数据的线程，消费者就是消费数据的线程。在多线程开发当中，如果生产者处理速度很快，而消费者处理速度很慢，那么生产 者就必须等待消费者处理完，才能继续生产数据。同样的道理，如果消费者的处理能力大于生产者，那么消费者就必须等待生产者。为了解决这种生产消费能力不均 衡的问题，所以便有了生产者和消费者模式。
+
+1234567891011121314
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-11 21:33" pubdate>
+              2021-08-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E5%9C%BA%E6%99%AF%E9%A2%98/">场景题</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/07/22/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89/" target="_self">
+          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/wallhaven-721q7e.jpg" srcset="/img/loading.gif" lazyload alt="面试问题（1）">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/22/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89/" target="_self">
+          面试问题（1）
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/22/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89/" target="_self">
+          
+          
+            
+          
+          聊半天项目。。。。。（cookie、表的处理 sku、）
+OOM发生场景、怎么排查创建一个 ArrayList，while一直添加数字。
+出现的场景：
+
+局部数组过大。
+指针或者数组越界
+递归调用层次太多（字符串拷贝等）
+
+如何排查：dump 快照文件利用自带的vm等工具分析
+
+-xx:+HeapDumpOnOutOfMemoryError 参数可以发生OOM时自动进行dump
+jmap 可以手动
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-22 20:10" pubdate>
+              2021-07-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/07/21/%E4%B8%83%E7%89%9B%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/" target="_self">
+          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/girl.jpg" srcset="/img/loading.gif" lazyload alt="七牛云上传图片">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/21/%E4%B8%83%E7%89%9B%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/" target="_self">
+          七牛云上传图片
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/21/%E4%B8%83%E7%89%9B%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/" target="_self">
+          
+          
+            
+          
+           七牛云网址： https://portal.qiniu.com
+注册登录就不说了。。。。
+
+个人中心的密钥，后面要用。
+
+创建对象存储的服务器，每个人有免费的10个G
+
+
+
+在 idea 中pom 导入依赖
+123456&lt;!--七牛云SKD--&gt;   &lt;dependency&gt;       &lt;groupId&gt;com.qiniu&lt;/groupId&gt;  
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-21 17:13" pubdate>
+              2021-07-21
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%B8%83%E7%89%9B%E4%BA%91/">七牛云</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/07/21/%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E8%A6%81%E7%82%B9/" target="_self">
+          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/ali.jpg" srcset="/img/loading.gif" lazyload alt="面试复习要点">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/21/%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E8%A6%81%E7%82%B9/" target="_self">
+          面试复习要点
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/21/%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E8%A6%81%E7%82%B9/" target="_self">
+          
+          
+            
+          
+          Java基础
+⾯向对象特性：封装，多态（动态绑定，向上转型），继承 
+泛型，类型擦除 
+反射，原理，优缺点 
+static ， final 关键字 
+String ， StringBuffer ， StringBuilder 底层区别 
+BIO、NIO、AIO 
+Object 类的⽅法 
+⾃动拆箱和⾃动装箱
+
+Java集合框架
+List ： ArrayList 、 LinkedList 、 Vec
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-21 17:13" pubdate>
+              2021-07-21
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/07/21/MyBatis%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E4%BB%A3%E7%A0%81/" target="_self">
+          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/wow.jpg" srcset="/img/loading.gif" lazyload alt="MyBatis逆向工程代码">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/21/MyBatis%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E4%BB%A3%E7%A0%81/" target="_self">
+          MyBatis逆向工程代码
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/21/MyBatis%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E4%BB%A3%E7%A0%81/" target="_self">
+          
+          
+            
+          
+          逆向工程 generator的使用generator 是什么
+是一个逆向工程，用于自动生成mapper.xml，mapper.java，pojo
+generator能干什么？
+对于单表而言，几乎是一个全能的工具，能很大提高编程效率。更多的关注业务逻辑的实现。
+
+逆向工程可以自动生成 sql 代码，不用程序员在手动添加了。
+
+先导入依赖1234567891011&lt;!-- mybatis 依赖(
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-21 09:05" pubdate>
+              2021-07-21
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/MyBatis/">MyBatis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/07/20/%E5%9F%BA%E4%BA%8EHexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2%E5%88%B0github/" target="_self">
+          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/headkui.jpg" srcset="/img/loading.gif" lazyload alt="基于Hexo搭建个人博客部署到github">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/20/%E5%9F%BA%E4%BA%8EHexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2%E5%88%B0github/" target="_self">
+          基于Hexo搭建个人博客部署到github
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/20/%E5%9F%BA%E4%BA%8EHexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2%E5%88%B0github/" target="_self">
+          
+          
+            
+          
+          
+本篇分享一下个人在搭建博客的时候遇见的各种坑，以及解决的办法。
+
+
+总的来说，搭建博客是很简单的，也不需要语言的基础，新手也可以分分钟搭建出来自己个性的博客，只是需要一个启发，我就是充当这个角色的，网上搭建的方法介绍有很多，我不敢说我的全，但是我敢说跟着我走可以少走很多的弯路，节省很多的时间。
+
+
+我本来也是想部署到 gitee 上的，但是由于 gitee 的原因，只能部署到 github 了，
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-20 22:23" pubdate>
+              2021-07-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%90%AD%E5%BB%BA%E4%B8%8E%E9%83%A8%E7%BD%B2/">搭建与部署</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Hexo/">Hexo</a>
+            
+              <a href="/tags/git/">git</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/07/18/JVM/" target="_self">
+          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/006.png" srcset="/img/loading.gif" lazyload alt="JVM">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/18/JVM/" target="_self">
+          JVM
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/18/JVM/" target="_self">
+          
+          
+            
+          
+          JVMJVM的运行机制
+Java Virtual Machine 是用于运行Java字节码的虚拟机。
+JVM运行到操作系统之上，不与硬件设备直接交互。
+
+Java程序的运行过程1、Java源文件被编译器编译成字节码文件。
+2、JVM将字节码文件编译成相应操作系统的机器码。
+3、机器码调用相应操作系统的本地方法库执行相应的方法。
+
+
+
+
+类加载器子系统用于将编译好的.Class文件加载到JVM中；
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-18 09:05" pubdate>
+              2021-07-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/JVM/">JVM</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/07/18/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/" target="_self">
+          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/007.jpg" srcset="/img/loading.gif" lazyload alt="分布式缓存的原理及应用">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/18/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/" target="_self">
+          分布式缓存的原理及应用
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/18/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/" target="_self">
+          
+          
+            
+          
+          分布式缓存的原理及应用
+缓存指将需要频繁访问的数据存放在内存中以加快用户访问速度的一种技术。
+缓存分进程级缓存和分布式缓存
+
+分布式缓存介绍分布式缓存是相当于传统的进程内缓存而言的，对于传统的单点 Web 系统一般使用进程内缓存，而在微服务架构下往往需要一个分布式缓存来实现跨服务的缓存系统。
+Ehcache 的原理及应用
+Ehcache 是基于 Java实现的一套简单、高效、线程安全的缓存管理类库
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-18 09:05" pubdate>
+              2021-07-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+            
+              <a href="/tags/%E7%BC%93%E5%AD%98/">缓存</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/07/18/Java%E5%9F%BA%E7%A1%80/" target="_self">
+          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/005.jpg" srcset="/img/loading.gif" lazyload alt="Java基础">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/18/Java%E5%9F%BA%E7%A1%80/" target="_self">
+          Java基础
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/18/Java%E5%9F%BA%E7%A1%80/" target="_self">
+          
+          
+            
+          
+          Java基础集合List：可重复非常常用的数据类型，是有序的Collection。
+
+ArrayList：基于数组实现，增删慢，查询快，线程不安全
+
+是使用最广泛的List实现类，提供add remove get 功能
+必须连续存储，导致中间插入和删除时的代价高，更适合随机查询和遍历的操作
+不需要定义数组长度，在长度不够时，ArrayList会创建一个更大的数组并把原有的数据复制到新的数组中
+
+
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-18 09:05" pubdate>
+              2021-07-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

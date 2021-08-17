@@ -1,0 +1,705 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="专注于分享开发经验的博客网站。">
+  <meta name="author" content="Yibo Zhao">
+  <meta name="keywords" content="">
+  
+  <title>数据库及分布式事务 - Zhaoio</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://gitee.com/zyb_01_01/blog-images/raw/master/img/004.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="数据库及分布式事务">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Yibo Zhao
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-18 09:05" pubdate>
+        2021年7月18日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      37
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">数据库及分布式事务</h1>
+            
+            <div class="markdown-body">
+              <h1 id="数据库及分布式事务"><a href="#数据库及分布式事务" class="headerlink" title="数据库及分布式事务"></a>数据库及分布式事务</h1><h2 id="数据库的基本概念及原则"><a href="#数据库的基本概念及原则" class="headerlink" title="数据库的基本概念及原则"></a>数据库的基本概念及原则</h2><h3 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h3><blockquote>
+<p>数据库的存储引擎是数据库的底层软件组织，数据库管理系统（DBMS）使用存储引擎创建、更新、删除和查询数据。</p>
+</blockquote>
+<p><strong>MyIASM</strong></p>
+<p>MyIASM 是 MySQL 默认的存储引擎，不支持数据库事务、行级锁和外键，因此在 INSERT 或 UPDATE 数据时需要锁定整个表，效率较低。</p>
+<p>在执行读取操作的速度快，且占用的内存和存储资源较少。在设计之初就假设数据被组织成固定长度的记录，并且是按照顺序存储的。<br>在查找数据时，MyIASM 直接查找文件的 OFFSET ,定位比 InnoDB 要快（InnoDB 寻址时要先映射到块，再映射到行）。</p>
+<p>MyIASM 缺点是更新数据慢且不支持事务处理，优点是查询速度快。</p>
+<p><strong>InnoDB</strong></p>
+<p>InnoDB 为MySQL 提供了事务支持、回滚、崩溃修复能力、多版本并发控制、事务安全的操作。<br>InnoDB 底层存储结构为 B+ 树，B+树的每个节点都对应 InnoDB 的一个 Page，Page 的大小是固定的，一般被设置16KB。<br>非叶子节点只有键值，叶子节点包含完整的数据。</p>
+<p>InnoDB 使用场景</p>
+<ul>
+<li>经常有数据更新的表，适合处理多重并发更新请求。</li>
+<li>支持事务</li>
+<li>支持灾难恢复（通过 bin-log 日志恢复）</li>
+<li>支持外键约束，只有 InnoDB 支持外键</li>
+<li>支持自动增加列属性 auto_increment</li>
+</ul>
+<p><strong>TokuDB</strong></p>
+<p>TokuDB 的底层存储结构为 Fractal Tree。Fractal Tree 的结构与 B+树有些类似，只是Fractal Tree 中除了每一个指针，都需要指向一个 child（孩子）节点，child 节点带一个 Message Buffer，该 Message Buffer 是一个先进先出队列，用来缓存更新操作。</p>
+<p>在线添加索引，不影响读写操作，有非常高的写入性能，主要适用于要求写入速度快、访问频率不高的数据或历史数据归档。</p>
+<p><strong>Memory</strong></p>
+<p>Memory 表使用内存空间创建。每个 Memory 表实际上都对应一个磁盘文件用于支持数据持久化。<br>因为数据是存在内存中，因此访问速度非常快，通常使用 Hash 索引来实现数据索引</p>
+<p>缺点：一旦服务关闭，表中数据将会丢失。</p>
+<p>支持散列索引和 B 树索引</p>
+<h3 id="创建索引的原则"><a href="#创建索引的原则" class="headerlink" title="创建索引的原则"></a>创建索引的原则</h3><blockquote>
+<p>创建索引是提高数据库查询数据效率最常用的办法，也是很重要的办法。</p>
+</blockquote>
+<ul>
+<li>选择唯一性索引：唯一性索引一般基于 Hash 算法实现，可以快速、唯一地定位某条数据。</li>
+<li>为经常需要排序、分组和联合操作的字段建立索引。</li>
+<li>为经常作为查询条件的字段建立索引。</li>
+<li>限制索引的数量：索引越多，数据更新表越慢，因为数据更新时会不断计算和添加索引。</li>
+<li>尽量使用数据量少的索引：如果索引的值很长，则占用的磁盘较大，查询速度会受到影响。</li>
+<li>尽量使用前缀来索引：如果索引字段的值过长，则不但影响索引的大小，而且会降低索引的执行效率，需使用字段的部分前缀来作为索引。</li>
+<li>删除不再使用或者很少使用的索引。</li>
+<li>尽量选择区分度高的列作为索引：区分度表示字段值不重复的比例</li>
+<li>索引列不能参与计算：带函数的查询不建议参与索引</li>
+<li>尽量扩展现有索引：联合索引的查询效率比多个独立索引高。</li>
+</ul>
+<h3 id="数据库三范式"><a href="#数据库三范式" class="headerlink" title="数据库三范式"></a>数据库三范式</h3><p>范式是具有最小冗余的表结构</p>
+<p><strong>第一范式</strong></p>
+<p>每列都是不可再分的最小数据单元（也叫最小原子单元），则满足第一范式。<br>第一范式的目标是确保每列的原子性。</p>
+<p><strong>第二范式</strong></p>
+<p>在第一范式的基础上，规定表中的非主键列不存在对主键的部分依赖，即第二范式要求每个表只描述一件事情。</p>
+<p><strong>第三范式</strong></p>
+<p>满足第一范式和第二范式，并且表中列不存在对非主键的传递依赖。</p>
+<h3 id="数据库事务"><a href="#数据库事务" class="headerlink" title="数据库事务"></a>数据库事务</h3><blockquote>
+<p>数据库事务执行一系列基础操作，这些基础操作组成一个逻辑工作单元一起向数据库提交，要么都执行，要么都不执行。</p>
+<p>事务是一个不可分割的工作逻辑单元。</p>
+</blockquote>
+<p><strong>ACID</strong></p>
+<ul>
+<li>原子性：事务是一个完整操作，参与事务逻辑单元要么都执行，要么都不执行。</li>
+<li>一致性：在事务执行完毕时（无论是正常执行完毕还是异常结束），数据都必须处于一致状态。</li>
+<li>隔离性：对数据进行修改的所有并发事务都是彼此隔离的，他不应以任何方式影响其他事务。</li>
+<li>永久性：在事务操作完成后，对数据的修改将被持久化到永久性存储中。</li>
+</ul>
+<h3 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h3><blockquote>
+<p>存储过程指一组用于完成特定功能的 SQL 语句集，它被存储在数据库中，经过第一次编译后再次调用时不需要被再次编译，用户通过指定存储过程的名字并给出参数来执行它。</p>
+</blockquote>
+<p><strong>常见的存储过程优化思路</strong></p>
+<ul>
+<li>尽量用一些 SQL 语句代替一些小循环，例如聚合函数、求平均函数等。</li>
+<li>中间结果被存放与临时表中，并加索引。</li>
+<li>少使用游标：SQL 是种集合语言，对于集合运算有较高的性能，而游标是过程运算。</li>
+<li>事务越短越好：SQL Server 支持并发操作，如果事务过长或者隔离级别过高，则都会造成并发操作的阻塞、死锁，导致查询速度极慢、CPU 占用率高等。</li>
+<li>使用 try-catch 处理异常。</li>
+<li>尽量不要将查询语句放入循环中，防止出现过度消耗系统资源的情况。</li>
+</ul>
+<h3 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h3><p>触发器是一段能自动执行的程序，和普通存储过程的区别是“触发器在对某一个表或者数据进行操作时触发”。</p>
+<p>触发器用于数据变化后需要执行一系列操作的情况。比如：对系统核心数据的修改需要通过触发器来存储操作日志的信息。</p>
+<h2 id="数据库的并发操作和锁"><a href="#数据库的并发操作和锁" class="headerlink" title="数据库的并发操作和锁"></a>数据库的并发操作和锁</h2><h3 id="数据库的并发策略"><a href="#数据库的并发策略" class="headerlink" title="数据库的并发策略"></a>数据库的并发策略</h3><ul>
+<li><strong>乐观锁</strong><ul>
+<li>乐观锁在读取数据时，认为别人不会去写其所读的数据；悲观锁恰恰相反，觉得自己读数据时，别人可能刚好在写自己刚读的数据。时间戳在操作数据时不加锁，而是通过时间戳来控制并发出现的问题。</li>
+</ul>
+</li>
+<li><strong>悲观锁</strong><ul>
+<li>悲观锁在其修改数据时，不允许别人读取数据，直到自己整个事务都提交并释放锁，其他用户才能访问数据。</li>
+<li>悲观锁又可分为排它锁（写锁）和共享锁（读锁）。</li>
+</ul>
+</li>
+<li><strong>时间戳</strong><ul>
+<li>在数据表中额外加一个时间戳列 TimeStamp 。每次读取数据时，都把时间戳也读出来，在更新时把时间戳加1，在提交之前跟数据库的该字段比较一次，如果比数据库的值大，就允许保存，否则不允许保存。</li>
+<li>这种处理方式虽然不用数据库系统提供的锁机制，但是可以大大提高数据库处理的并发度。</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据库锁"><a href="#数据库锁" class="headerlink" title="数据库锁"></a>数据库锁</h3><p><strong>行级锁</strong></p>
+<p>指对某行数据加锁，是一种排它锁，防止其他事务修改此行。</p>
+<p>行级冲突少，但加锁速度慢。</p>
+<p><strong>表级锁</strong></p>
+<p>指对当前操作的整张表加锁，它的实现简单，资源消耗较少，被大部分存储引擎支持。最常使用的 MyISAM 和  InnoDB 都支持表级锁。</p>
+<p>表级锁分为表共享读锁和表独占写锁。</p>
+<p>表级锁加锁速度快，但冲突多。</p>
+<p><strong>页级锁</strong></p>
+<p>锁定粒度介于行级锁和表级锁之间。在两者之间做了平衡，一次锁定相邻的一组记录。</p>
+<p><strong>基于 Redis 的分布式锁</strong></p>
+<blockquote>
+<p>数据库锁是基于单个数据库实现的，在我们的业务跨多个数据库时，就要使用分布式锁来保证数据的一致性。</p>
+</blockquote>
+<p>以<code>Redis setnx</code> 命令为中心实现</p>
+<ul>
+<li>获取锁：在获取锁时调用 setnx ，如果返回 0，则该锁正在被别人使用；如果返回1，则获取成功。</li>
+<li>释放锁：在释放锁时，判断锁是否存在，如果存在，则执行 Redis 的 delete 操作释放锁。</li>
+</ul>
+<h3 id="数据库分表"><a href="#数据库分表" class="headerlink" title="数据库分表"></a>数据库分表</h3><ul>
+<li>垂直切分<ul>
+<li>将表按照功能模块、关系密切程度将表划分到不同的库中。</li>
+<li>DB–&gt;workDB、payDB.</li>
+</ul>
+</li>
+<li>水平切分<ul>
+<li>在一个表中的数据量过大时（一般在数据超过 1 亿条后），我们可以把该表按照某种规则如 userId 散列进行划分，然后将其存储到多个具有相同表结构的数据库上。</li>
+<li>userDB–&gt;userDB1(userId/2=0)、userDB2(userId/2=1).</li>
+</ul>
+</li>
+</ul>
+<h2 id="数据库分布式事务"><a href="#数据库分布式事务" class="headerlink" title="数据库分布式事务"></a>数据库分布式事务</h2><h3 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h3><blockquote>
+<p>CAP 原则又称CAP定理，指在一个分布式系统中，一致性、可用性和分区容错性三者不可兼得。</p>
+</blockquote>
+<ul>
+<li>一致性：在分布式系统的所有数据备份中，在同一时刻是否有同样的值（等同于所有节点都访问同一份最新的数据副本）。</li>
+<li>可用性：在集群中一部分节点发生故障后，集群整体能否响应客户端的读写请求（对数据更新具备高可用性）。</li>
+<li>分区容错性：系统如果不能在时限内达到数据的一致性，就意味着发生了分区，必须就当前操作在 C 和 A 之间做出选择。<br>以实际效果而言，分区相当于对通信的时限要求。</li>
+</ul>
+<h3 id="两阶段提交协议"><a href="#两阶段提交协议" class="headerlink" title="两阶段提交协议"></a>两阶段提交协议</h3><blockquote>
+<p>分布式事务指涉及操作多个数据库的事务，在分布式系统中，各个节点之间在物理上相互独立，通过网络进行沟通和协调。</p>
+</blockquote>
+<p>二阶段提交协议指在计算机网络及数据库领域内，为了使分布式数据库的所有节点在进行事务提交时都保持一致性而设计的一种算法。</p>
+<p>在分布式系统中，每个节点都可以知道自己的操作是否成功，但不知道其它节点的操作是否成功。</p>
+<blockquote>
+<p>在一个事务跨越多个节点时，为了保持事务的 ACID 特性，需要引入一个作为协调者的组件来统一掌控所有节点（称作参与者）的操作结果，并最终确定这些节点是否真正提交操作结果。</p>
+</blockquote>
+<ul>
+<li>Prepare（准备阶段）<ul>
+<li>事务协调者（事务管理器）给每个参与者（源管理器）都发送 Prepare 消息。每个参与者要么直接返回失败，要么在本地执行事务，写本地的 redo 和 undo 日志但不提交，是一种“万事俱备，只欠东风”的状态。</li>
+</ul>
+</li>
+<li>Commit（提交阶段）<ul>
+<li>如果协调者接收到了参与者的失败消息或者等待超时，则直接给每个参与者都发送回滚消息，否则发送提交消息，参与者根据协调者的指令执行提交或者回滚操作，释放在所有事务处理过程使用的锁资源。</li>
+</ul>
+</li>
+</ul>
+<p><strong>两阶段提交的缺点</strong></p>
+<ul>
+<li>同步阻塞问题</li>
+<li>单点故障</li>
+<li>数据不一致</li>
+<li>协调者宕机后事务状态丢失</li>
+</ul>
+<p>两阶段三阶段具体信息：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1623831009&amp;ver=3133&amp;signature=UoeIFv-jZi8CjNTp-fKKd8Aax-D75ZzN64zg-SbPOkpYhd5JgW3J-Stct3XG155JOiThZOD6YFJ3y6J7T2rPrFXTyEBVHvqUpjAT2QGDhC5ElGJD5aQXE4tytXNncKaj&amp;new=1">https://mp.weixin.qq.com/s?src=11&amp;timestamp=1623831009&amp;ver=3133&amp;signature=UoeIFv-jZi8CjNTp-fKKd8Aax-D75ZzN64zg-SbPOkpYhd5JgW3J-Stct3XG155JOiThZOD6YFJ3y6J7T2rPrFXTyEBVHvqUpjAT2QGDhC5ElGJD5aQXE4tytXNncKaj&amp;new=1</a></p>
+<h3 id="三阶段提交协议"><a href="#三阶段提交协议" class="headerlink" title="三阶段提交协议"></a>三阶段提交协议</h3><blockquote>
+<p>3PC ，是2PC的改进版本</p>
+</blockquote>
+<ul>
+<li>引入超时机制</li>
+<li>在第 1 阶段和第 2 阶段都加入一个预准备阶段，以保证在最后的任务提交之前各参与节点的状态是一致的。</li>
+</ul>
+<p><strong>三个阶段</strong></p>
+<ul>
+<li>CanCommit 阶段<ul>
+<li>协调者给参与者发送 Commit 请求，参与者如果可以提交就返回 Yes 响应，否则返回 No 响应</li>
+</ul>
+</li>
+<li>PreCommit 阶段<ul>
+<li>协调者根据参与者的反应决定是否继续：</li>
+<li>假如协调者从所有参与者哪里获得的反馈都是 Yes 响应，就预执行事务。</li>
+<li>假如有任意参与者发送 No 响应或者等待超时，则执行事务的中断。</li>
+</ul>
+</li>
+<li>DoCommit 阶段<ul>
+<li>进行真正的事务提交</li>
+</ul>
+</li>
+</ul>
+<h3 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h3><p><strong>传统事务</strong></p>
+<p>传统事务遵循 ACID 原则。</p>
+<ul>
+<li>原子性</li>
+<li>一致性</li>
+<li>隔离性</li>
+<li>持久性</li>
+</ul>
+<p><strong>柔性事务</strong></p>
+<blockquote>
+<p>基于CAP理论和BASE理论，阿里巴巴提出了柔性事务的概念。</p>
+<p>BASE理论是CAP理论的延伸，包括基本可用、柔性状态、最终一致性三个原则，并基于这三个原则设计出了柔性事务。</p>
+</blockquote>
+<p>我们常说的柔性事务分为：两阶段型、补偿性、异步确保型、最大努力通知型。</p>
+<p>**<em>两阶段型事务</em> **</p>
+<p>指分布式事务的两阶段提交，对应技术上的 XA 和 JTA/JTS，是分布式环境下事务处理的典型模式。</p>
+<p><strong><em>TCC型事务</em>（Try、Confirm、Cancel）</strong></p>
+<p>TCC型事务为补偿性事务，是一种基于补偿的事务处理模型。</p>
+<p>TCC 事务模型牺牲了一定的隔离性和一致性，但是提高了事务的可用性。</p>
+<p>如：服务器A和服务器B的事务都顺利执行提交，则整个事务执行结束。如果事务B执行失败回滚，事务A执行成功提交了，则需要一个补偿操作，将已经提交的事务A进行回滚操作，恢复到未执行前事务A的状态。</p>
+<p><em><strong>异步确保型事务</strong></em></p>
+<p>基于消息队列异步执行的操作，来避免分布式事务中同步阻塞带来的数据操作性能下降。</p>
+<p><em><strong>最大努力通知型事务</strong></em></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1623833676&amp;ver=3133&amp;signature=BWIOpWsTAf8153oLp6v6aulPxK2o95oeeot0F0MhCjK8xS2TwSRPcPRZSETTD2Du6lDWWp7ZF2mxuonvkAw1C4Fv6v5us1W8IJtz*RmfWhHcJPgq2i6nYnrUOaW1DVc*&amp;new=1">https://mp.weixin.qq.com/s?src=11&amp;timestamp=1623833676&amp;ver=3133&amp;signature=BWIOpWsTAf8153oLp6v6aulPxK2o95oeeot0F0MhCjK8xS2TwSRPcPRZSETTD2Du6lDWWp7ZF2mxuonvkAw1C4Fv6v5us1W8IJtz*RmfWhHcJPgq2i6nYnrUOaW1DVc*&amp;new=1</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/18/Java%E5%9F%BA%E7%A1%80/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java基础</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/18/%E7%BD%91%E7%BB%9C%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
+                        <span class="hidden-mobile">网络与负载均衡</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"enable":true,"appId":"5CfOLIefyoLFMEX7jYWyO7Eo-gzGzoHsz","appKey":"4XjKvAxcqwFIHPJVdMGwfgY4","placeholder":"说点什么","path":"window.location.pathname","avatar":"retro","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"requiredFields":[]},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

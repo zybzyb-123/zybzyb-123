@@ -1,0 +1,771 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="专注于分享开发经验的博客网站。">
+  <meta name="author" content="Yibo Zhao">
+  <meta name="keywords" content="">
+  
+  <title>JVM - Zhaoio</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://gitee.com/zyb_01_01/blog-images/raw/master/img/004.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JVM">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Yibo Zhao
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-18 09:05" pubdate>
+        2021年7月18日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      30
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JVM</h1>
+            
+            <div class="markdown-body">
+              <h1 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h1><h2 id="JVM的运行机制"><a href="#JVM的运行机制" class="headerlink" title="JVM的运行机制"></a>JVM的运行机制</h2><ul>
+<li>Java Virtual Machine 是用于运行Java字节码的虚拟机。</li>
+<li>JVM运行到操作系统之上，不与硬件设备直接交互。</li>
+</ul>
+<h3 id="Java程序的运行过程"><a href="#Java程序的运行过程" class="headerlink" title="Java程序的运行过程"></a>Java程序的运行过程</h3><p>1、Java源文件被编译器编译成字节码文件。</p>
+<p>2、JVM将字节码文件编译成相应操作系统的机器码。</p>
+<p>3、机器码调用相应操作系统的本地方法库执行相应的方法。</p>
+<img src="C:\Users\赵翌博\Pictures\JVM.jpg" srcset="/img/loading.gif" lazyload alt="JVM虚拟机" style="zoom:50%;" />
+
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210815222611301.png" srcset="/img/loading.gif" lazyload alt="image-20210815222611301"></p>
+<ul>
+<li>类加载器子系统用于将编译好的.Class文件加载到JVM中；</li>
+<li>运行时数据区用于存储在JVM运行过程中产生的数据，包括程序计数器、方法区、本地方法区、虚拟机栈和虚拟机堆；</li>
+<li>执行引擎包括即时编译器和垃圾回收堆，即时编译器用于将Java字节码编译成具体的机器码，垃圾回收器用于回收在运行过程中不再使用的对象；</li>
+<li>本地接口库用于调用操作系统的本地方法库完成具体的指令操作。  </li>
+</ul>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><ul>
+<li>在多核操作系统上，JVM允许一个进程内同时并发执行多个线程。</li>
+</ul>
+<blockquote>
+<p>JVM后台运行的主要线程</p>
+<blockquote>
+<p>虚拟机线程</p>
+<p>周期性任务线程</p>
+<p>GC线程</p>
+<p>编译器线程</p>
+<p>信号分发线程</p>
+</blockquote>
+</blockquote>
+<h2 id="JVM的内存区域"><a href="#JVM的内存区域" class="headerlink" title="JVM的内存区域"></a>JVM的内存区域</h2><h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><blockquote>
+<p>线程私有，无内存溢出问题。</p>
+</blockquote>
+<h3 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h3><blockquote>
+<p>线程私有，描述Java方法的执行过程。</p>
+</blockquote>
+<h3 id="本地方法区"><a href="#本地方法区" class="headerlink" title="本地方法区"></a>本地方法区</h3><blockquote>
+<p>线程私有</p>
+</blockquote>
+<ul>
+<li>与虚拟机栈作用类似，区别是虚拟机栈为执行Java方法服务，本地方法栈为Native方法服务。</li>
+</ul>
+<h3 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h3><blockquote>
+<p>也叫运行时数据区，线程共享。</p>
+</blockquote>
+<ul>
+<li>现代JVM采用分代收集算法，因此Java堆从CG角度还可以细分为：新生代、老生代和永久代。</li>
+</ul>
+<h3 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h3><blockquote>
+<p>线程共享</p>
+</blockquote>
+<ul>
+<li>永久代</li>
+</ul>
+<h2 id="JVM运行时内存"><a href="#JVM运行时内存" class="headerlink" title="JVM运行时内存"></a>JVM运行时内存</h2><ul>
+<li>新生代占1/3堆内存，Eden区默认占8/10，SurvivorFrom区和SurvivorTo区各占1/10；</li>
+<li>老年代占2/3堆内存；</li>
+<li>永久代占的非常少。</li>
+</ul>
+<h3 id="新生代"><a href="#新生代" class="headerlink" title="新生代"></a>新生代</h3><ul>
+<li>Eden区，新创建的对象放在这里，如果是大对象则直接分配到老年代，内存不足时会触发MinorGC，进行垃圾回收。</li>
+<li>SurvivorTo区，保留上一次GC时的幸存者。</li>
+<li>SurvicorFrom区，将上一次GC时的幸存者作为这次GC的被扫描者。</li>
+<li>MinorGC会被频繁触发。</li>
+</ul>
+<h3 id="老年代"><a href="#老年代" class="headerlink" title="老年代"></a>老年代</h3><ul>
+<li>存放长生命周期的对象和大对象。</li>
+<li>MajorGC不会频繁触发</li>
+</ul>
+<h3 id="永久代"><a href="#永久代" class="headerlink" title="永久代"></a>永久代</h3><ul>
+<li>内存的永久保存区域</li>
+<li>存放Class和Meta信息</li>
+<li>在Java 8中，永久代被元数据区替代，内存不受JVM的影响，直接使用操作系统的内存。</li>
+</ul>
+<h2 id="垃圾回收与算法"><a href="#垃圾回收与算法" class="headerlink" title="垃圾回收与算法"></a>垃圾回收与算法</h2><h3 id="如何确定垃圾"><a href="#如何确定垃圾" class="headerlink" title="如何确定垃圾"></a>如何确定垃圾</h3><blockquote>
+<p>1、引用计数法</p>
+<blockquote>
+<ul>
+<li><p>引用对象时+1，删除引用时-1，如果计数为0时，则表示可以回收；</p>
+<p>弊端</p>
+<ul>
+<li>容易产生循环引用问题，指两个对象相互引用，导致引用一直存在，而不能回收。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>2、可达性分析</p>
+</blockquote>
+<h3 id="Java中常用的垃圾回收算法"><a href="#Java中常用的垃圾回收算法" class="headerlink" title="Java中常用的垃圾回收算法"></a>Java中常用的垃圾回收算法</h3><ul>
+<li><p>标记清除算法</p>
+<ul>
+<li>基础垃圾回收算法，效率低，内存碎片多。</li>
+</ul>
+</li>
+<li><p>复制算法</p>
+<ul>
+<li>解决上一算法问题而设计的，划分两个区域</li>
+<li>效率高，易于实现。</li>
+<li>内存空间被压缩一半，存在大量的内存浪费</li>
+<li>处理大量长时间存活的对象时，来回复制会影响效率，所以只对<code>朝生夕死</code>状态的对象运行效率高。</li>
+</ul>
+</li>
+<li><p>标记整理算法</p>
+<ul>
+<li>结合上两种算法的优点</li>
+</ul>
+</li>
+<li><p>分代收集算法</p>
+<ul>
+<li>由于上面三种方法都不能对所有类型的对象都进行垃圾回收，故产生此种方法。</li>
+<li>新生代都采用复制算法，老年代则采用标记清除算法。</li>
+<li>新生代：JVM运行过程中主要使用Eden区和SurvivoForm区，进行GC时会将这两个区存活的对象复制到SurvivorTo区，然后清理两区空间。</li>
+<li>老年代：主要存放的都是生命周期长和大对象，每次只有少量非存活的对象被清理回收。</li>
+<li>Survivor区的对象经过一次GC后依然存活，则年龄+1，年龄达到15后进入老年区；或因无法找到连续的存储空间存储对象，依然会移入老年区。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Java中4种引用类型"><a href="#Java中4种引用类型" class="headerlink" title="Java中4种引用类型"></a>Java中4种引用类型</h2><ul>
+<li><p>强引用</p>
+<ul>
+<li>最常见，把一个对象赋值给一个引用对象。</li>
+<li>一定为可达性状态，所以不会被垃圾回收机制回收。</li>
+<li>强引用是造成Java内存泄漏的主要原因。</li>
+</ul>
+</li>
+<li><p>软引用</p>
+<ul>
+<li>SoftReference，如果对象只有软引用时，则系统内存不足时该对象将被回收。</li>
+</ul>
+</li>
+<li><p>弱引用</p>
+<ul>
+<li>WeakReference，只用弱引用时，在回收过程中一定会被回收。</li>
+</ul>
+</li>
+<li><p>虚引用</p>
+<ul>
+<li>PhantomReference，虚引用和引用队列联合使用，用于跟踪对象的垃圾回收状态。</li>
+</ul>
+</li>
+</ul>
+<h2 id="分代收集算法和分区收集算法"><a href="#分代收集算法和分区收集算法" class="headerlink" title="分代收集算法和分区收集算法"></a>分代收集算法和分区收集算法</h2><h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>1、新生代与复制算法</p>
+<p>2、老年代与标记整理算法</p>
+<h3 id="分区收集算法"><a href="#分区收集算法" class="headerlink" title="分区收集算法"></a>分区收集算法</h3><p>划分大小不同的小区域，在每个小区域内单独进行内存使用和垃圾回收。</p>
+<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><ul>
+<li><p>新生代</p>
+<ul>
+<li>Serial垃圾收集器：单线程，复制算法。<ul>
+<li>简单、高效，对于单CPU环境来说，效率最高</li>
+<li>是JVM运行在Client模式下新生代的默认垃圾收集器</li>
+</ul>
+</li>
+<li>ParNew垃圾收集器：多线程，复制算法。<ul>
+<li>同上；是JVM在Server模式下新生代的默认垃圾收集器</li>
+</ul>
+</li>
+<li>Parallel Scavnge垃圾收集器：多线程，复制算法<ul>
+<li>在系统吞吐量上有很大的优化</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>老年代</p>
+<ul>
+<li><p>Serial Old垃圾收集器：单线程，标记整理算法</p>
+<ul>
+<li>是JVM运行在Client模式下老年代的默认垃圾收集器</li>
+</ul>
+</li>
+<li><p>Parallel Old垃圾收集器：多线程，标记整理算法</p>
+<ul>
+<li>优先考虑吞吐量，其次考虑停顿时间等因素</li>
+</ul>
+</li>
+<li><p>CMS垃圾收集器：多线程，标记清除算法</p>
+<ul>
+<li>目的：使用最短的垃圾回收停顿时间完成垃圾回收，不需要暂停用户线程</li>
+<li>工作机制复杂：初始标记、并发标记、重新标记、并发清除</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>G1垃圾收集器</p>
+<ul>
+<li>将堆内存划分为大小固定大的几个独立区域，同时后台维护一个优先级列表</li>
+<li>相对于CMS的两个突出改进<ul>
+<li>基于标记整理算法，不产生内存碎片</li>
+<li>可以精确地控制停顿时间，在不牺牲吞吐量的前提下实现最短停顿垃圾回收。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Java网络编程模型"><a href="#Java网络编程模型" class="headerlink" title="Java网络编程模型"></a>Java网络编程模型</h2><h3 id="阻塞I-O模型"><a href="#阻塞I-O模型" class="headerlink" title="阻塞I/O模型"></a>阻塞I/O模型</h3><ul>
+<li>最常见的I/O模型</li>
+<li>发送I/O请求后，内核会检查数据是否就绪，此时用户线程一直阻塞等待内存数据就绪；就绪后，内核将数据复制到用户线程中，并返回I/O执行结果到用户线程，此时用户线程会解除阻塞并开始处理数据。</li>
+<li>例子：data=socket.read()，如果内核没有就绪，Socket线程会一直阻塞在read()中等待就绪。</li>
+</ul>
+<h3 id="非阻塞模型"><a href="#非阻塞模型" class="headerlink" title="非阻塞模型"></a>非阻塞模型</h3><ul>
+<li><p>发送I/O请求后，无须阻塞便可以马上得到内核返回的结果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">while</span>(<span class="hljs-keyword">true</span>)&#123;<br>    data = socket.read();<br>    <span class="hljs-keyword">if</span>(data == <span class="hljs-keyword">true</span>)&#123; <span class="hljs-comment">//1.内核数据就绪</span><br>        <span class="hljs-comment">//获取并处理内核数据</span><br>        <span class="hljs-keyword">break</span>;<br>    &#125;<span class="hljs-keyword">else</span>&#123;  <span class="hljs-comment">//2.内核数据未就绪，用户线程处理其他任务</span><br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="多路复用I-O模型"><a href="#多路复用I-O模型" class="headerlink" title="多路复用I/O模型"></a>多路复用I/O模型</h3><ul>
+<li>多线程并发编程用的较多的模型</li>
+<li>用一个被称为Selector的线程不断轮询多个Socket的状态，只有在Socket读写时才会通知用户线程进行I/O读写操作</li>
+<li>只有在Socket读写事件时才会使用操作系统的I/O资源，大大的节约了系统资源</li>
+<li>在连接数众多但信息体不大时，有很大的的优势，相反，在事件响应体（信息体）很大时，Selector线程会成为性能瓶颈，导致后面的事件不能及时处理，影响下一轮的事件轮询。</li>
+</ul>
+<h3 id="信号驱动I-O模型"><a href="#信号驱动I-O模型" class="headerlink" title="信号驱动I/O模型"></a>信号驱动I/O模型</h3><ul>
+<li>发起I/O请求时，系统为该请求对应的Socket注册一个信号函数；在内核数据就绪时，系统发送信号到用户线程，用户线程会在信号函数中调用对应的I/O读写操作完成实际的I/O请求操作</li>
+</ul>
+<h3 id="异步I-O模型"><a href="#异步I-O模型" class="headerlink" title="异步I/O模型"></a>异步I/O模型</h3><ul>
+<li>用户线程不用关系整个I/O操作是如何进行的，只需发起一个请求，在接收到内核返回的成功或失败信号时说明I/O操作已经完成，直接使用数据即可。</li>
+<li>需要操作系统的底层支持，在Java7中提供了<code>Asynchronous I/O</code>操作</li>
+</ul>
+<h3 id="Java-I-O"><a href="#Java-I-O" class="headerlink" title="Java I/O"></a>Java I/O</h3><ul>
+<li>5个类：<code>File</code> <code>OutputStream</code> <code>InputStream</code> <code>Writer</code> <code>Reader</code> </li>
+<li>1个接口：<code>Serializabe</code> </li>
+</ul>
+<h3 id="Java-NIO"><a href="#Java-NIO" class="headerlink" title="Java NIO"></a>Java NIO</h3><ul>
+<li><p>三大核心 <code>Selector</code> <code>Channel</code> <code>Buffer</code> </p>
+<blockquote>
+<p>Java NIO和传统I/O的最大区别</p>
+<p>（1）I/O是面向流的，NIO面向缓冲区；</p>
+<p>（2）传统I/O的流操作是阻塞模式的，NIO的流操作是非阻塞模式的；</p>
+</blockquote>
+</li>
+<li><p>Channel：和I/O中Stream类似，但是既可以用来<code>读</code>也可以用来<code>写</code> ;</p>
+</li>
+<li><p>Buffer：一个容器，在一个连续的字节数组存储I/O数据，Channel的读写需经过Buffer；</p>
+</li>
+<li><p>Selector：用于检查多个Channel上是否有I/O事件发生；</p>
+</li>
+</ul>
+<h2 id="JVM的类加载机制"><a href="#JVM的类加载机制" class="headerlink" title="JVM的类加载机制"></a>JVM的类加载机制</h2><h3 id="JVM的类加载阶段"><a href="#JVM的类加载阶段" class="headerlink" title="JVM的类加载阶段"></a>JVM的类加载阶段</h3><ul>
+<li>加载：指JVM读取Class文件，并根据Class文件描述创建java.lang.Class对象的过程</li>
+<li>验证：只有通过验证的Class文件才能被JVM加载</li>
+<li>准备：在方法区中为类变量分配内存空间并设置类中变量的初始值<ul>
+<li>final可以改变变量在准备阶段的初始值</li>
+</ul>
+</li>
+<li>解析：JVM会将常量池中的符号引用替换为直接引用</li>
+<li>初始化：主要通过执行类构造器的<code>&lt;client&gt;</code> 方法为类进行初始化；<code>&lt;client&gt;</code> 方法是在编译阶段由编译器自动收集类中静态语句块和变量的赋值操作组成的<ul>
+<li>常量在编译时会将其常量值存入使用该常量的类的常量池中，该过程不需要调用常量所在的类，不触发常量类的初始化</li>
+<li>在子类引用父类的静态字段时，不会触发子类，但会触发父类的初始化</li>
+<li>定义对象数组，不会触发该类的初始化</li>
+<li>在使用类名获取Class对象时不会触发类的初始化</li>
+<li>在使用Class.forName加载指定的类时，可以通过initialize参数设置是否需要对类进行初始化</li>
+<li>在使用ClassLoader默认的loadClass方法加载类时不会触发该类的初始化</li>
+</ul>
+</li>
+</ul>
+<h3 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h3><ul>
+<li>启动类加载器：负责加载Java_HOME/lib目录中的类库</li>
+<li>扩展类加载器：负责加载Java_HOME/lib/ext目录中的类库</li>
+<li>应用程序类加载器：负责加载用户路径上的类库</li>
+</ul>
+<h3 id="双亲委派机制"><a href="#双亲委派机制" class="headerlink" title="双亲委派机制"></a>双亲委派机制</h3><ul>
+<li>保障类的唯一性和安全性</li>
+</ul>
+<h3 id="OSGL"><a href="#OSGL" class="headerlink" title="OSGL"></a>OSGL</h3><ul>
+<li>Java动态化模块系统的一系列规范</li>
+<li>OSGL提供了一种面向服务的架构，该架构为组件提供动态发现其他组件的功能</li>
+<li>OSGL还定义了这些规范所依赖的服务和架构</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JVM/">JVM</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/20/%E5%9F%BA%E4%BA%8EHexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2%E5%88%B0github/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">基于Hexo搭建个人博客部署到github</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/18/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/">
+                        <span class="hidden-mobile">分布式缓存的原理及应用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"enable":true,"appId":"5CfOLIefyoLFMEX7jYWyO7Eo-gzGzoHsz","appKey":"4XjKvAxcqwFIHPJVdMGwfgY4","placeholder":"说点什么","path":"window.location.pathname","avatar":"retro","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"requiredFields":[]},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

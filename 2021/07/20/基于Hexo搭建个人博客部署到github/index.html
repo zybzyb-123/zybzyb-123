@@ -1,0 +1,583 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="专注于分享开发经验的博客网站。">
+  <meta name="author" content="Yibo Zhao">
+  <meta name="keywords" content="">
+  
+  <title>基于Hexo搭建个人博客部署到github - Zhaoio</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://gitee.com/zyb_01_01/blog-images/raw/master/img/future.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="基于Hexo搭建个人博客部署到github">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Yibo Zhao
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-20 22:23" pubdate>
+        2021年7月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      900 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">基于Hexo搭建个人博客部署到github</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
+<p>本篇分享一下个人在搭建博客的时候遇见的各种坑，以及解决的办法。</p>
+</blockquote>
+<blockquote>
+<p>总的来说，搭建博客是很简单的，也不需要语言的基础，新手也可以分分钟搭建出来自己个性的博客，只是需要一个启发，我就是充当这个角色的，网上搭建的方法介绍有很多，我不敢说我的全，但是我敢说跟着我走可以少走很多的弯路，节省很多的时间。</p>
+</blockquote>
+<blockquote>
+<p>我本来也是想部署到 gitee 上的，但是由于 gitee 的原因，只能部署到 github 了，虽然我们之间有一堵墙，但是到目前为止， github 的加载速度还可以哦。</p>
+</blockquote>
+<p>​    言归正传，搭建博客正式开始：</p>
+<h3 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h3><ul>
+<li>我们不管是部署到码云还是<code>github</code>上，我们买不买域名或服务器都可以使用的，部署到这上面。他们会给你生成一个网址，就可以直接进入。如果有域名的话，后面会讲如何把域名搞到你的博客上滴。</li>
+</ul>
+<p><strong>1.安装 Node.js 环境</strong> </p>
+<ul>
+<li>下载地址：<a target="_blank" rel="noopener" href="http://nodejs.cn/download/">http://nodejs.cn/download/</a></li>
+</ul>
+<p>安装之后检查是否安装成功：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">node -v<br>v14.16.1<br>npm -v<br>6.14.12<br></code></pre></td></tr></table></figure>
+
+<p><strong>2. Hexo 安装</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install hexo-cli -g<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210720225123355.png" srcset="/img/loading.gif" lazyload alt="image-20210720225123355"></p>
+<p>检查安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo -v<br></code></pre></td></tr></table></figure>
+
+<p><strong>3.创建本地博客文件</strong></p>
+<p>先进入D盘或者F盘，就是你要创建文件的地址盘</p>
+<p>然后进入放置文件的目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">C:\Users\yonghu&gt;d:<br>D:\&gt;<span class="hljs-built_in">cd</span> <span class="hljs-built_in">test</span><br>D:\<span class="hljs-built_in">test</span>&gt;hexo init blog<br></code></pre></td></tr></table></figure>
+
+<p>这里就等待自动创建博客了，后面的操作都在这个博客的文件里进行操作了，我们可以放心大胆在操作，就算出错，我们也可以删掉在创建一个，嘿嘿。</p>
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210720230012438.png" srcset="/img/loading.gif" lazyload alt="image-20210720230012438">看到这里，就说明我们创建成功了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> blog<br></code></pre></td></tr></table></figure>
+
+<p>进入博客文件。</p>
+<p>然后安装博客项目的依赖包。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210720230330051.png" srcset="/img/loading.gif" lazyload alt="image-20210720230330051">成功之后，我们可以启动服务看看。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo server<br></code></pre></td></tr></table></figure>
+
+<p>进入 <a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000</a></p>
+<p>我们可以看到一个简单的博客就搭建好了，但是只是本地的，接下来我们就可以把博客部署到gitee或者github上。</p>
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210720230633296.png" srcset="/img/loading.gif" lazyload alt="image-20210720230633296"></p>
+<p>Hexo 上博客的一些操作大家可以去 <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing">https://hexo.io/docs/writing</a> 看一看，如果大家看不是太懂，我下一篇会出一些简单的操作。</p>
+<h3 id="博客项目部署-github"><a href="#博客项目部署-github" class="headerlink" title="博客项目部署 github"></a>博客项目部署 github</h3><p><strong>1.登录 github</strong></p>
+<p>首先，部署 github 我们要有账号，没有的去注册（ github 账号程序员必备），<a target="_blank" rel="noopener" href="https://github.com/">https://github.com/</a><br>登录之后，点击新建仓库：</p>
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210720231348894.png" srcset="/img/loading.gif" lazyload alt="image-20210720231348894"></p>
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210720231640726.png" srcset="/img/loading.gif" lazyload alt="image-20210720231640726"></p>
+<p>创建仓库的名称注意：要和用户名一样，然后加上 <code>.github.io</code> ，在这里我已经创建过了，所以说已经存在了。</p>
+<p>**2.获取 SSH **</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git config --global user.name <span class="hljs-string">&quot;用户名&quot;</span>  <br>git config --global user.email <span class="hljs-string">&quot;邮箱&quot;</span> <br>ssh-keygen -t rsa<br></code></pre></td></tr></table></figure>
+
+<p>然后连摁三个回车，进入 C:\Users\主机名.ssh 目录，把 id_rsa.pub 里面的信息复制到 github 的 SSH 公钥中即可。</p>
+<p><strong>3.在 github 设置 SSH</strong></p>
+<img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210721094525633.png" srcset="/img/loading.gif" lazyload alt="image-20210721094525633" style="zoom:50%;" />
+
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210720232956784.png" srcset="/img/loading.gif" lazyload alt="image-20210720232956784"></p>
+<p>标题随便写，把 id_rsa.pub 里面的信息复制到密钥即可。</p>
+<p><strong>4.在博客项目中安装 git 部署插件</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm install hexo-deployer-git --save<br></code></pre></td></tr></table></figure>
+
+<p><strong>5.修改项目配置文件：</strong>_config.yml</p>
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210720233437034.png" srcset="/img/loading.gif" lazyload alt="image-20210720233437034"></p>
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210720233507125.png" srcset="/img/loading.gif" lazyload alt="image-20210720233507125"></p>
+<p><strong>repo:</strong> 填写刚刚新建仓库的地址</p>
+<p><strong>6.部署 github 远程仓库</strong></p>
+<p>在博客项目中输入命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo clean<br>hexo d -g<br></code></pre></td></tr></table></figure>
+
+<p>github 提交会有超时的情况发生，非常难受，要尝试多次。</p>
+<p>**7.github pages **</p>
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210720234317442.png" srcset="/img/loading.gif" lazyload alt="image-20210720234317442"></p>
+<h3 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h3><p><strong>后面还有许多坑，我先替大家踩了，下一篇分享更换主题，以及主题部分组件的使用。</strong></p>
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210720234534421.png" srcset="/img/loading.gif" lazyload alt="image-20210720234534421"></p>
+<p><a target="_blank" rel="noopener" href="https://www.somezhao.com/">https://www.somezhao.com/</a>  我的博客。。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%90%AD%E5%BB%BA%E4%B8%8E%E9%83%A8%E7%BD%B2/">搭建与部署</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Hexo/">Hexo</a>
+                    
+                      <a class="hover-with-bg" href="/tags/git/">git</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/21/MyBatis%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E4%BB%A3%E7%A0%81/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MyBatis逆向工程代码</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/18/JVM/">
+                        <span class="hidden-mobile">JVM</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"enable":true,"appId":"5CfOLIefyoLFMEX7jYWyO7Eo-gzGzoHsz","appKey":"4XjKvAxcqwFIHPJVdMGwfgY4","placeholder":"说点什么","path":"window.location.pathname","avatar":"retro","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"requiredFields":[]},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

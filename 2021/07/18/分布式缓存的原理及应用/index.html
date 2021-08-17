@@ -1,0 +1,722 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="专注于分享开发经验的博客网站。">
+  <meta name="author" content="Yibo Zhao">
+  <meta name="keywords" content="">
+  
+  <title>分布式缓存的原理及应用 - Zhaoio</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://gitee.com/zyb_01_01/blog-images/raw/master/img/004.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="分布式缓存的原理及应用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Yibo Zhao
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-18 09:05" pubdate>
+        2021年7月18日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      32
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">分布式缓存的原理及应用</h1>
+            
+            <div class="markdown-body">
+              <h1 id="分布式缓存的原理及应用"><a href="#分布式缓存的原理及应用" class="headerlink" title="分布式缓存的原理及应用"></a>分布式缓存的原理及应用</h1><blockquote>
+<p>缓存指将需要频繁访问的数据存放在内存中以加快用户访问速度的一种技术。</p>
+<p>缓存分进程级缓存和分布式缓存</p>
+</blockquote>
+<h2 id="分布式缓存介绍"><a href="#分布式缓存介绍" class="headerlink" title="分布式缓存介绍"></a>分布式缓存介绍</h2><p>分布式缓存是相当于传统的进程内缓存而言的，对于传统的单点 Web 系统一般使用进程内缓存，而在微服务架构下往往需要一个分布式缓存来实现跨服务的缓存系统。</p>
+<h2 id="Ehcache-的原理及应用"><a href="#Ehcache-的原理及应用" class="headerlink" title="Ehcache 的原理及应用"></a>Ehcache 的原理及应用</h2><blockquote>
+<p>Ehcache 是基于 Java实现的一套简单、高效、线程安全的缓存管理类库。特点是快速、轻量、可伸缩、操作灵活、支持持久化。</p>
+</blockquote>
+<h3 id="Ehcache-的原理"><a href="#Ehcache-的原理" class="headerlink" title="Ehcache 的原理"></a>Ehcache 的原理</h3><blockquote>
+<p>基于Java实现的高效缓存框架，其内部采用多线程实现，采用LinkedHashMap 存储元素，同时支持将数据持久化到物理磁盘上</p>
+</blockquote>
+<p><strong>特点</strong></p>
+<ul>
+<li>快速：Ehcache 内部采用多线程机制实现，数据存取性能高。</li>
+<li>轻量：Ehcache 的安装包大小只有 1.6 MB，可以快速、方便地继承到系统中。</li>
+<li>可伸缩：Ehcache 缓存在内存和硬盘的存储可以伸缩到数几十 GB ，可以轻松应对大数据场景。</li>
+<li>操作灵活：Ehcache 提供丰富的 API 接口，可实现基于主键、条件进行数据读取。同时，支持在运行时修改缓存配置，提高系统维护的灵活性。</li>
+<li>支持多中淘汰算法：Ehcache 支持最近最少被使用、最少被使用和先进先出缓存淘汰机制。</li>
+<li>支持持久化：支持将缓存数据持久化到磁盘上，在机器重启后从磁盘上重新加载缓存数据。</li>
+</ul>
+<p><strong>架构</strong></p>
+<blockquote>
+<p>由 Cache Replication、In-Process API 和 Core组成</p>
+</blockquote>
+<ul>
+<li>Cache Replication 存储缓存副本</li>
+<li>In-Process API 封装操作缓存数据的 API</li>
+<li>Core 是核心部分</li>
+<li>NetWork APIs提供接口</li>
+</ul>
+<p><strong>Ehcache 的存储方式</strong></p>
+<ul>
+<li>堆存储：存 Java堆内存，存取速度快，但容量有限。</li>
+<li>堆外存储：基于 NIO 的DirectByteBuffers 实现，将缓存数据存储在堆外内存上。特点是比磁盘存取速度快，而且不受 GC 的影响，可以保证响应时间的稳定性，在内存分配上开销比堆内存大，存取速度慢。</li>
+<li>磁盘存储：存储到磁盘，，保障服务器重启后内存数据能够重新从磁盘上加载，读取效率最低，是内存数据持久化的一种方式。</li>
+</ul>
+<p><strong>扩展模块</strong></p>
+<blockquote>
+<p>Ehcache是开放的缓存系统，除自身的实现外还有其他扩展模型，这些扩展模型是相互独立的库，每个都为Ehcache添加新的功能。</p>
+</blockquote>
+<h3 id="Ehcache-的应用"><a href="#Ehcache-的应用" class="headerlink" title="Ehcache 的应用"></a>Ehcache 的应用</h3><p>Spring Boot 中使用 Ehcache 组件比较简单</p>
+<ul>
+<li>引入 jar 包</li>
+<li>设置 ehcache.xml</li>
+<li>使用 Ehcache 缓存</li>
+</ul>
+<h2 id="Redis-的原理及应用"><a href="#Redis-的原理及应用" class="headerlink" title="Redis 的原理及应用"></a>Redis 的原理及应用</h2><blockquote>
+<p>Redis 是一个开源（BSD许可）的内存中的数据结构存储系统，可以用作内存数据库、缓存和消息中间件，支持多种类型的数据结构。</p>
+</blockquote>
+<h3 id="Redis-的原理"><a href="#Redis-的原理" class="headerlink" title="Redis 的原理"></a>Redis 的原理</h3><blockquote>
+<p>不但支持丰富的数据类型，还支持分布式事务、数据分片、数据持久化等功能，是分布式系统中不可或缺的内存数据库服务。</p>
+</blockquote>
+<p><strong>数据类型</strong></p>
+<p>八种数据类型：String、Hash、List、Set、Zset、Bitmap（位图）、HyperLogLog（超级日志）和Geospatial（地理空间）。</p>
+<ul>
+<li>String<ul>
+<li>String 是 Redis 基本的数据类型，一个 key 对应一个 value 。String 类型的值最大能存储 512 MB 数据。</li>
+<li>支持丰富的操作指令。</li>
+</ul>
+</li>
+<li>Hash<ul>
+<li>Redis Hash 是一个键值（key-&gt;value）对集合。</li>
+</ul>
+</li>
+<li>List<ul>
+<li>简单的字符串列表，按照插入顺序排序。</li>
+<li>我们可以添加一个元素到头部或尾部。</li>
+</ul>
+</li>
+<li>Set<ul>
+<li>Set 是 String 类型的无序集合。集合是通过散列表实现的，所以增删改的复杂度都是O(1)。</li>
+</ul>
+</li>
+<li>ZSet<ul>
+<li>也是 String 类型元素的集合，且不允许有重复的成员。</li>
+<li>不同的是，每个元素都会关联一个 double 类型的分数。正是通过分数来为集合中的成员进行从小到大的排序的。</li>
+</ul>
+</li>
+<li>Bitmap<ul>
+<li>通过操作二进制位记录数据。</li>
+<li>常用命令：setbit、getbit、bitcount、destkey</li>
+</ul>
+</li>
+</ul>
+<p><strong>Redis 管道</strong></p>
+<p>Redis 是基于请求/响应协议的 TCP 服务。</p>
+<p>在分布式环境下，Redis 的性能瓶颈主要体现在网络延迟上。</p>
+<p>Redis 的管道技术指在服务武器未响应时，客户端可以继续向服务端发送请求，并最终一次性读取所有服务端响应。</p>
+<p><strong>Redis 事务</strong></p>
+<p>事务执行流程：</p>
+<ul>
+<li>事务开启：客户端执行 Multi 命令开启事务。</li>
+<li>提交请求：客户端提交命令到事务。</li>
+<li>任务入队列：Redis 将客户端请求放入事务队列中等待执行。</li>
+<li>入队状态反馈：服务器返回 QURUD，表示命令已被放入事务队列。</li>
+<li>执行命令：客户端通过 Exec 执行事务。</li>
+<li>事务执行错误:在 Redis 事务中如果某条命令执行错误，则其他命令会继续执行，不会回滚。可通过 WATCH 监控事务执行的状态并处理命令执行错误的异常情况。</li>
+<li>执行结果反馈：服务器向客户端返回事务执行结果。</li>
+</ul>
+<p>事务相关命令：</p>
+<ul>
+<li>Multi：标记一个事务块的开始。</li>
+<li>Exec：执行所有事务块内的命令。</li>
+<li>Discard：取消事务，放弃事务块的所有命令。</li>
+<li>Watch：监视一个或多个 Key ，如果在事务执行之前这些key被其他命令改动，那么事务将被打断。</li>
+<li>Unwatch：取消 Watch 命令对所有key的监视。</li>
+</ul>
+<p>Redis 事务基于 SpringBoot 的使用：</p>
+<ul>
+<li>开启事务权限</li>
+<li>开启事务</li>
+<li>执行事务命令</li>
+<li>执行成功，提交事务</li>
+<li>执行失败，回滚事务</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><br></code></pre></td></tr></table></figure>
+
+<p><strong>Redis 发布、订阅</strong></p>
+<p>Redis 发布、订阅是一种消息通信模式：发送者（Pub）向频道（Channel）发送消息，订阅者（Sub）接收频道上的消息。</p>
+<p><strong>Redis 集群数据复制的原理</strong></p>
+<p>Redis 提供了复制功能，可以实现在主数据库（Master）中的数据更新后，自动将更新的数据同步到从数据库（Slave）。</p>
+<p>主从数据复制原理：</p>
+<ul>
+<li>一个从数据库启动后，会向主数据库发送 SYNC 命令。</li>
+<li>主数据库接收后，会开始在后台保存快照（即 RDB 持久化的过程），并将保存快照期间接收到的命令缓存起来。</li>
+<li>在主数据库快照执行完成后，Redis 会将快照文件和所有缓存的命令以 .rdb 快照文件的形式发送给从数据库。</li>
+<li>从数据库接收后，载入该快照文件到本地。</li>
+<li>从数据库载入后，将数据写入内存。该过程称为复制初始化。</li>
+<li>复制初始化结束后，主数据库在每次收到命令时都会将命令同步给从数据库，从而保证主从数据库数据一致。</li>
+</ul>
+<p><strong>Redis 的持久化</strong></p>
+<ul>
+<li>RDB （Redis DataBase)<ul>
+<li>在指定时间间隔内对数据进行快照存储。</li>
+<li>特点：文件格式紧凑，方便进行数据传输和数据恢复。</li>
+</ul>
+</li>
+<li>AOF（Append Of File）<ul>
+<li>记录对服务器的每次写操作，在 Redis 重启时会重放这些命令来恢复数据。</li>
+<li>特点：可以使用不同的 fsync 策略将操作追加命令到文件，操作效率高；</li>
+<li>同时，AOF 文件时日志格式，更容易被理解和操作。</li>
+</ul>
+</li>
+</ul>
+<p><strong>Redis 的集群模式及工作原理</strong></p>
+<blockquote>
+<p>三种集群模式：主从模式、哨兵模式、集群模式</p>
+</blockquote>
+<ul>
+<li><p>主从模式：所有写请求都发送到主数据库上，再由主数据库将数据同步到从数据库上。</p>
+<ul>
+<li>主数据库主要用于执行写操作和数据同步，从数据库主要用于执行读操作缓解系统的读压力。</li>
+</ul>
+</li>
+<li><p>哨兵模式：在主从模式上添加一个哨兵的角色来监控集群的运行状态。</p>
+<ul>
+<li>哨兵是一个独立运行的进程，在监测到 Master 宕机时会自动 Slave 切换成 Master ，然后通过发布与订阅模式通知其他从服务器修改配置文件，完成主备热切。</li>
+</ul>
+</li>
+<li><p>集群模式：实现了在多个 Redis 节点之间进行数据分片和数据复制。</p>
+<ul>
+<li>基于 Redis 集群的数据自动分片能力，我们能够方便地对 Redis 集群进行横向扩展，以提高 Reids 集群的吞吐量。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Redis-的应用"><a href="#Redis-的应用" class="headerlink" title="Redis 的应用"></a>Redis 的应用</h3><p><strong>安装 Redis</strong></p>
+<ul>
+<li>下载 Redis 软件</li>
+<li>编译和安装</li>
+<li>创建 Redis 节点</li>
+<li>配置 Redis 集群</li>
+<li>启动节点</li>
+<li>创建集群</li>
+</ul>
+<h2 id="分布式缓存设计的核心问题"><a href="#分布式缓存设计的核心问题" class="headerlink" title="分布式缓存设计的核心问题"></a>分布式缓存设计的核心问题</h2><blockquote>
+<p>分布式缓存设计的核心问题是以哪种方式进行缓存预热和缓存更新，以及如何优雅解决缓存雪崩、缓存穿透、缓存降级等问题。</p>
+</blockquote>
+<h3 id="缓存预热"><a href="#缓存预热" class="headerlink" title="缓存预热"></a>缓存预热</h3><p>​    指在用户请求数据前先将数据加载到缓存系统中，用户查询事先被预热的缓存数据，以提高系统查询效率。</p>
+<p>缓存预热一般有系统启动加载、定时加载等方法。</p>
+<h3 id="缓存更新"><a href="#缓存更新" class="headerlink" title="缓存更新"></a>缓存更新</h3><p>常见的缓存更新策略</p>
+<ul>
+<li>定时更新：定时将底层数据库内的数据更新到缓存中，该方法比较简单，适合需要缓存的数据量不是很大的应用场景。</li>
+<li>过期更新：定时将缓存中过期的数据更新为最新的数据并更新缓存的过期时间。</li>
+<li>写请求更新：在用户有些请求时先写数据库同时更新缓存，这适用于用户对缓存数据和数据库的数据有实时强一致性的情况</li>
+<li>读请求更新：在用户读请求时，先判断该请求数据的缓存是否存在或过期，如果不存在或者已过期，则进行底层数据库查询并将查询结果更新到缓存中，同时将查询结果返回给用户。</li>
+</ul>
+<h3 id="缓存淘汰策略"><a href="#缓存淘汰策略" class="headerlink" title="缓存淘汰策略"></a>缓存淘汰策略</h3><ul>
+<li>FIFO：判断被存储的时间，离目前最远的数据优先被淘汰。</li>
+<li>LRU（最近最少使用）：判断缓存最近被使用的时间，距离当前时间最远的数据优先被淘汰。</li>
+<li>LFU（最不经常使用）：在一段时间内，被使用次数最少的缓存优先被淘汰。</li>
+</ul>
+<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><blockquote>
+<p>缓存雪崩指同一时刻由于大量缓存失效，导致大量本应该访问缓存的请求都去查询数据库了</p>
+<p>这样对数据库的 CPU 和内存造成巨大压力，严重的导致数据库宕机，从而形成连锁反应，导致系统崩溃。</p>
+</blockquote>
+<p>处理方法：</p>
+<ul>
+<li>请求加锁：对于并发量不是很多的应用，使用请求加锁排队的方案防止过多请求数据库。</li>
+<li>失效更新：为每个缓存数据都增加过期标记来记录缓存数据是否失效，如果缓存标记失效，则更新数据库缓存。</li>
+<li>设置不同的失效时间：为不同数据设置不同失效时间，防止在同一时刻有大量数据失效。</li>
+</ul>
+<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><blockquote>
+<p>由于缓存系统故障或用户频繁访问系统中不存在的数据，而这时请求穿过缓存不断被发送到数据库，导致数据库过载，进而引发一连串问题。</p>
+</blockquote>
+<p>解决方法：</p>
+<ul>
+<li>布隆过滤器：指将可能存在的数据都映射到一个足够大的 BitMap 中，在用户发起请求时首先进过布隆过滤器的拦截，一个一定不存在的数据会被这个布隆过滤器拦截，从而避免对底层存储系统带来查询上的压力。</li>
+<li>cache null 策略：在缓存中记录一个短暂的数据在系统中是否存在的状态，如果不存在，则直接返回null ，不再查询数据库，从而避免缓存穿透到数据库上。</li>
+</ul>
+<h3 id="缓存降级"><a href="#缓存降级" class="headerlink" title="缓存降级"></a>缓存降级</h3><blockquote>
+<p>由于访问量剧增导致服务出现问题时，优先保障核心业务的运行，减少或关闭非核心业务对资源的使用</p>
+</blockquote>
+<p>常见的服务降级策略</p>
+<ul>
+<li>写降级</li>
+<li>读降级</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BC%93%E5%AD%98/">缓存</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/18/JVM/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JVM</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/18/Java%E5%9F%BA%E7%A1%80/">
+                        <span class="hidden-mobile">Java基础</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"enable":true,"appId":"5CfOLIefyoLFMEX7jYWyO7Eo-gzGzoHsz","appKey":"4XjKvAxcqwFIHPJVdMGwfgY4","placeholder":"说点什么","path":"window.location.pathname","avatar":"retro","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"requiredFields":[]},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

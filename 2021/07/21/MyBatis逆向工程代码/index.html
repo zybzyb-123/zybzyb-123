@@ -1,0 +1,520 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="专注于分享开发经验的博客网站。">
+  <meta name="author" content="Yibo Zhao">
+  <meta name="keywords" content="">
+  
+  <title>MyBatis逆向工程代码 - Zhaoio</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://gitee.com/zyb_01_01/blog-images/raw/master/img/wow.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="MyBatis逆向工程代码">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Yibo Zhao
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-21 09:05" pubdate>
+        2021年7月21日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      35
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MyBatis逆向工程代码</h1>
+            
+            <div class="markdown-body">
+              <h3 id="逆向工程-generator的使用"><a href="#逆向工程-generator的使用" class="headerlink" title="逆向工程 generator的使用"></a>逆向工程 generator的使用</h3><p><strong>generator 是什么</strong></p>
+<p>是一个逆向工程，用于自动生成mapper.xml，mapper.java，pojo</p>
+<p><strong>generator能干什么？</strong></p>
+<p>对于单表而言，几乎是一个全能的工具，能很大提高编程效率。更多的关注业务逻辑的实现。</p>
+<ul>
+<li>逆向工程可以自动生成 sql 代码，不用程序员在手动添加了。</li>
+</ul>
+<h4 id="先导入依赖"><a href="#先导入依赖" class="headerlink" title="先导入依赖"></a>先导入依赖</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;!-- mybatis 依赖(让生成的 pojo 和 mapper 不缺少注解相关类型) --&gt;<br>   &lt;dependency&gt;<br>     &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;<br>     &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;<br>   &lt;/dependency&gt;<br>   &lt;!-- mybatis generator core 依赖 --&gt;<br>   &lt;dependency&gt;<br>     &lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;<br>     &lt;artifactId&gt;mybatis-generator-core&lt;/artifactId&gt;<br>     &lt;version&gt;<span class="hljs-number">1.3</span><span class="hljs-number">.7</span>&lt;/version&gt;<br>   &lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+
+<h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;!-- mybatis generator plugin 依赖 --&gt;<br>     &lt;plugin&gt;<br>       &lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;<br>       &lt;artifactId&gt;mybatis-generator-maven-plugin&lt;/artifactId&gt;<br>       &lt;version&gt;<span class="hljs-number">1.3</span><span class="hljs-number">.7</span>&lt;/version&gt;<br>       &lt;configuration&gt;<br>         &lt;verbose&gt;<span class="hljs-keyword">true</span>&lt;/verbose&gt;<br>         &lt;!-- 是否覆盖 --&gt;<br>         &lt;overwrite&gt;<span class="hljs-keyword">true</span>&lt;/overwrite&gt;<br>         &lt;!-- 自动生成的配置 --&gt;<br>         &lt;configurationFile&gt;src/main/resources/mybatis-generator.xml&lt;/configurationFile&gt;<br>       &lt;/configuration&gt;<br>       &lt;dependencies&gt;<br>         &lt;!-- mysql 数据库依赖 --&gt;<br>         &lt;dependency&gt;<br>           &lt;groupId&gt;mysql&lt;/groupId&gt;<br>           &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;<br>           &lt;version&gt;$&#123;mysql.version&#125;&lt;/version&gt;<br>         &lt;/dependency&gt;<br>         &lt;!-- mybatis generator core 依赖 --&gt;<br>         &lt;dependency&gt;<br>           &lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;<br>           &lt;artifactId&gt;mybatis-generator-core&lt;/artifactId&gt;<br>           &lt;version&gt;<span class="hljs-number">1.3</span><span class="hljs-number">.7</span>&lt;/version&gt;<br>         &lt;/dependency&gt;<br>         &lt;!-- 将项目打包至本地仓库并添加依赖 --&gt;<br>         &lt;dependency&gt;<br>           &lt;groupId&gt;com.example&lt;/groupId&gt;<br>           &lt;artifactId&gt;shop-generator&lt;/artifactId&gt;<br>           &lt;version&gt;<span class="hljs-number">1.0</span>-SNAPSHOT&lt;/version&gt;<br>         &lt;/dependency&gt;<br>       &lt;/dependencies&gt;<br>     &lt;/plugin&gt;<br></code></pre></td></tr></table></figure>
+
+<h4 id="mybatis-generator-xml-配置："><a href="#mybatis-generator-xml-配置：" class="headerlink" title="mybatis-generator.xml 配置："></a><code>mybatis-generator.xml</code> 配置：</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">generatorConfiguration</span></span><br><span class="hljs-meta">        <span class="hljs-meta-keyword">PUBLIC</span> <span class="hljs-meta-string">&quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;</span></span><br><span class="hljs-meta">        <span class="hljs-meta-string">&quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;</span>&gt;</span><br><span class="hljs-comment">&lt;!-- 配置生成器 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">generatorConfiguration</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">context</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;MysqlTables&quot;</span> <span class="hljs-attr">targetRuntime</span>=<span class="hljs-string">&quot;MyBatis3&quot;</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- 生成的Java文件的编码 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;javaFileEncoding&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>/&gt;</span><br>        <span class="hljs-comment">&lt;!-- 增加Models ToStirng方法 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;org.mybatis.generator.plugins.ToStringPlugin&quot;</span>/&gt;</span><br>        <span class="hljs-comment">&lt;!-- 增加Models Serializable实现 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;org.mybatis.generator.plugins.SerializablePlugin&quot;</span>/&gt;</span><br>        <span class="hljs-comment">&lt;!-- 分页插件 --&gt;</span><br>        <span class="hljs-comment">&lt;!-- 在example类中增 page 属性，并在mapper.xml的查询中加入page !=null 时的查询 --&gt;</span><br>        <span class="hljs-comment">&lt;!-- &lt;plugin type=&quot;org.mybatis.generator.plugins.MySQLPagerPlugin&quot; /&gt; --&gt;</span><br>        <span class="hljs-comment">&lt;!-- 在example类中增 offset和limit属性，并在mapper.xml的查询中加入limit $&#123;offset&#125; ,</span><br><span class="hljs-comment">       $&#123;limit&#125; 提供在offset和limit&gt;0时的查询 --&gt;</span><br>        <span class="hljs-comment">&lt;!-- &lt;plugin type=&quot;org.mybatis.generator.plugins.MySQLPaginationPlugin&quot;&gt;&lt;/plugin&gt; --&gt;</span><br>        <span class="hljs-comment">&lt;!-- 是否去除自动生成的注释 true：是 ： false:否 --&gt;</span><br>        <span class="hljs-comment">&lt;!-- type指定生成注释使用的对象 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">commentGenerator</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;com.example.generator.ShopCommentGenerator&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;suppressAllComments&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;false&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">commentGenerator</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- mysql数据库连接配置 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">jdbcConnection</span> <span class="hljs-attr">driverClass</span>=<span class="hljs-string">&quot;com.mysql.cj.jdbc.Driver&quot;</span></span><br><span class="hljs-tag">                        <span class="hljs-attr">connectionURL</span>=<span class="hljs-string">&quot;jdbc:mysql://localhost:3306/shop?</span></span><br><span class="hljs-string"><span class="hljs-tag">useUnicode=true<span class="hljs-symbol">&amp;amp;</span>characterEncoding=UTF8<span class="hljs-symbol">&amp;amp;</span>serverTimezone=Asia/Shanghai<span class="hljs-symbol">&amp;amp;</span>tinyInt1isBit=false&quot;</span></span><br><span class="hljs-tag">                        <span class="hljs-attr">userId</span>=<span class="hljs-string">&quot;root&quot;</span> <span class="hljs-attr">password</span>=<span class="hljs-string">&quot;123456&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">jdbcConnection</span>&gt;</span><br>        <span class="hljs-comment">&lt;!--</span><br><span class="hljs-comment">        是否忽略BigDecimals 非必填项</span><br><span class="hljs-comment">        自动生成Java对象的时候，会根据number类型的长度不同生成不同的数据类型</span><br><span class="hljs-comment">        number长度   Java类型</span><br><span class="hljs-comment">        1~4         Short</span><br><span class="hljs-comment">        5~9         Integer</span><br><span class="hljs-comment">        10~18       Long</span><br><span class="hljs-comment">        18+         BigDecimal</span><br><span class="hljs-comment">        --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">javaTypeResolver</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;forceBigDecimals&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;false&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">javaTypeResolver</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- 以下内容，需要改动 --&gt;</span><br>        <span class="hljs-comment">&lt;!-- java类生成的位置 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">javaModelGenerator</span> <span class="hljs-attr">targetPackage</span>=<span class="hljs-string">&quot;com.example.generator.pojo&quot;</span></span><br><span class="hljs-tag">                            <span class="hljs-attr">targetProject</span>=<span class="hljs-string">&quot;src/main/java&quot;</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个</span><br><span class="hljs-comment">           package下，默认为false --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;enableSubPackages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br>            <span class="hljs-comment">&lt;!-- 从数据库返回的值去除前后空格 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;trimStrings&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">javaModelGenerator</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- *Mapper.xml配置文件生成的位置 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">sqlMapGenerator</span> <span class="hljs-attr">targetPackage</span>=<span class="hljs-string">&quot;com.example.generator.mapper&quot;</span></span><br><span class="hljs-tag">                         <span class="hljs-attr">targetProject</span>=<span class="hljs-string">&quot;src/main/java&quot;</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 是否让schema作为包后缀 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;enableSubPackages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">sqlMapGenerator</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- java mapper接口生成的位置(interface) --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">javaClientGenerator</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;XMLMAPPER&quot;</span> <span class="hljs-attr">targetPackage</span>=<span class="hljs-string">&quot;com.example.generator.mapper&quot;</span></span><br><span class="hljs-tag">                             <span class="hljs-attr">targetProject</span>=<span class="hljs-string">&quot;src/main/java&quot;</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 是否让schema作为包后缀 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;enableSubPackages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">javaClientGenerator</span>&gt;</span><br>        <span class="hljs-comment">&lt;!--</span><br><span class="hljs-comment">        指定数据库表</span><br><span class="hljs-comment">        tableName数据库表名</span><br><span class="hljs-comment">        domainObjectName生成的实体类名</span><br><span class="hljs-comment">        是否需要mapper配置文件加入sql的where条件查询,需要将enableCountByExample等设为true,</span><br><span class="hljs-comment">       会生成一个对应domainObjectName的Example类</span><br><span class="hljs-comment">        --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">tableName</span>=<span class="hljs-string">&quot;t_goods_images&quot;</span> <span class="hljs-attr">domainObjectName</span>=<span class="hljs-string">&quot;GoodsImages&quot;</span></span><br><span class="hljs-tag">               <span class="hljs-attr">enableCountByExample</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">enableDeleteByExample</span>=<span class="hljs-string">&quot;true&quot;</span></span><br><span class="hljs-tag">               <span class="hljs-attr">enableSelectByExample</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">enableUpdateByExample</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 用于insert时，返回主键的编号 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">generatedKey</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;img_id&quot;</span> <span class="hljs-attr">sqlStatement</span>=<span class="hljs-string">&quot;MySql&quot;</span> <span class="hljs-attr">identity</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">context</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">generatorConfiguration</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="ShopCommentGenerator-类："><a href="#ShopCommentGenerator-类：" class="headerlink" title="ShopCommentGenerator  类："></a><code>ShopCommentGenerator </code> 类：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.mybatis.generator.api.CommentGenerator;<br><span class="hljs-keyword">import</span> org.mybatis.generator.api.IntrospectedColumn;<br><span class="hljs-keyword">import</span> org.mybatis.generator.api.IntrospectedTable;<br><span class="hljs-keyword">import</span> org.mybatis.generator.api.dom.java.CompilationUnit;<br><span class="hljs-keyword">import</span> org.mybatis.generator.api.dom.java.Field;<br><span class="hljs-keyword">import</span> org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;<br><span class="hljs-keyword">import</span> org.mybatis.generator.api.dom.java.InnerClass;<br><span class="hljs-keyword">import</span> org.mybatis.generator.api.dom.java.InnerEnum;<br><span class="hljs-keyword">import</span> org.mybatis.generator.api.dom.java.JavaElement;<br><span class="hljs-keyword">import</span> org.mybatis.generator.api.dom.java.Method;<br><span class="hljs-keyword">import</span> org.mybatis.generator.api.dom.java.TopLevelClass;<br><span class="hljs-keyword">import</span> org.mybatis.generator.api.dom.xml.XmlElement;<br><span class="hljs-keyword">import</span> org.mybatis.generator.config.PropertyRegistry;<br><span class="hljs-keyword">import</span> java.time.LocalDateTime;<br><span class="hljs-keyword">import</span> java.time.format.DateTimeFormatter;<br><span class="hljs-keyword">import</span> java.util.Properties;<br><span class="hljs-keyword">import</span> java.util.Set;<br><span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.mybatis.generator.internal.util.StringUtility.isTrue;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 生成注释配置类</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ShopCommentGenerator</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">CommentGenerator</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * properties属性，即配置在 commentGenerator 标签之内的 Property 标签</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Properties properties;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * properties配置文件</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Properties systemPro;<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">     * 是否生成日期</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> suppressDate;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 是否生成注释</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> suppressAllComments;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 日期格式</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> String currentDateStr;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ShopCommentGenerator</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>();<br>        properties = <span class="hljs-keyword">new</span> Properties();<br>        systemPro = System.getProperties();<br>        suppressDate = <span class="hljs-keyword">false</span>;<br>        suppressAllComments = <span class="hljs-keyword">false</span>;<br>        currentDateStr =<br>                DateTimeFormatter.ofPattern(<span class="hljs-string">&quot;yyyy/MM/dd&quot;</span>).format(LocalDateTime.now());<br>    &#125;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 此方法返回格式化的日期字符串以包含在Javadoc标记中和XML注释。</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">protected</span> String <span class="hljs-title">getDateString</span><span class="hljs-params">()</span> </span>&#123;<br>    String result = <span class="hljs-keyword">null</span>;<br>    <span class="hljs-keyword">if</span> (!suppressDate) &#123;<br>        result = currentDateStr;<br>    &#125;<br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 从该配置中的任何属性添加此实例的属性CommentGenerator配置。</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> properties</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addConfigurationProperties</span><span class="hljs-params">(Properties properties)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.properties.putAll(properties);<br>        suppressDate =<br>                isTrue(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_SUPPRESS_DATE));<br>        suppressAllComments =<br>                isTrue(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_SUPPRESS_ALL_COMMENTS));<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 为字段添加注释</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> field</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> introspectedTable</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> introspectedColumn</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addFieldComment</span><span class="hljs-params">(Field field, IntrospectedTable introspectedTable,</span></span><br><span class="hljs-params"><span class="hljs-function">                                IntrospectedColumn introspectedColumn)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (suppressAllComments)<br>            <span class="hljs-keyword">return</span>;<br>        StringBuilder sb = <span class="hljs-keyword">new</span> StringBuilder();<br>        field.addJavaDocLine(<span class="hljs-string">&quot;/**&quot;</span>);<br>        sb.append(<span class="hljs-string">&quot; * &quot;</span>);<br>        sb.append(introspectedColumn.getRemarks());<br>        field.addJavaDocLine(sb.toString().replace(<span class="hljs-string">&quot;\n&quot;</span>, <span class="hljs-string">&quot; &quot;</span>));<br>        field.addJavaDocLine(<span class="hljs-string">&quot; */&quot;</span>);<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Java 属性注释</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> field</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> introspectedTable</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addFieldComment</span><span class="hljs-params">(Field field, IntrospectedTable introspectedTable)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (suppressAllComments)<br>            <span class="hljs-keyword">return</span>;<br>        StringBuilder sb = <span class="hljs-keyword">new</span> StringBuilder();<br>        field.addJavaDocLine(<span class="hljs-string">&quot;/**&quot;</span>);<br>        sb.append(<span class="hljs-string">&quot; * &quot;</span>);<br>        sb.append(introspectedTable.getFullyQualifiedTable());<br>        field.addJavaDocLine(sb.toString().replace(<span class="hljs-string">&quot;\n&quot;</span>, <span class="hljs-string">&quot; &quot;</span>));<br>        field.addJavaDocLine(<span class="hljs-string">&quot; */&quot;</span>);<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 为模型类添加注释</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> topLevelClass</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> introspectedTable</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addModelClassComment</span><span class="hljs-params">(TopLevelClass topLevelClass, IntrospectedTable</span></span><br><span class="hljs-params"><span class="hljs-function">            introspectedTable)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (suppressAllComments) &#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        topLevelClass.addJavaDocLine(<span class="hljs-string">&quot;/**&quot;</span>);<br>        topLevelClass.addJavaDocLine(<span class="hljs-string">&quot; * @author zyb &quot;</span>);<br>        topLevelClass.addJavaDocLine(<span class="hljs-string">&quot; * @since 1.0.0&quot;</span>);<br>        topLevelClass.addJavaDocLine(<span class="hljs-string">&quot; */&quot;</span>);<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Java类的类注释</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> innerClass</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> introspectedTable</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addClassComment</span><span class="hljs-params">(InnerClass innerClass, IntrospectedTable introspectedTable)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span> (suppressAllComments) &#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">// 获取表注释</span><br>        String remarks = introspectedTable.getRemarks();<br>        innerClass.addJavaDocLine(<span class="hljs-string">&quot;/**&quot;</span>);<br>        innerClass.addJavaDocLine(<span class="hljs-string">&quot;/* &quot;</span>+remarks);<br>        innerClass.addJavaDocLine(<span class="hljs-string">&quot; * @author zyb &quot;</span>);<br>        innerClass.addJavaDocLine(<span class="hljs-string">&quot; * @since 1.0.0&quot;</span>);<br>        innerClass.addJavaDocLine(<span class="hljs-string">&quot; */&quot;</span>);<br>    &#125;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 为类添加注释</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> innerClass</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> introspectedTable</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> b</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Override</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addClassComment</span><span class="hljs-params">(InnerClass innerClass, IntrospectedTable introspectedTable,</span></span><br><span class="hljs-params"><span class="hljs-function">                            <span class="hljs-keyword">boolean</span> b)</span> </span>&#123;<br>    <span class="hljs-comment">// 获取表注释</span><br>    String remarks = introspectedTable.getRemarks();<br>    innerClass.addJavaDocLine(<span class="hljs-string">&quot;/**&quot;</span>);<br>    innerClass.addJavaDocLine(<span class="hljs-string">&quot;/* &quot;</span>+remarks);<br>    innerClass.addJavaDocLine(<span class="hljs-string">&quot; * @author zyb &quot;</span>);<br>    innerClass.addJavaDocLine(<span class="hljs-string">&quot; * @since 1.0.0&quot;</span>);<br>    innerClass.addJavaDocLine(<span class="hljs-string">&quot; */&quot;</span>);<br>&#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 为枚举添加注释</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> innerEnum</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> introspectedTable</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addEnumComment</span><span class="hljs-params">(InnerEnum innerEnum, IntrospectedTable introspectedTable)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (suppressAllComments)<br>            <span class="hljs-keyword">return</span>;<br>        StringBuilder sb = <span class="hljs-keyword">new</span> StringBuilder();<br>        innerEnum.addJavaDocLine(<span class="hljs-string">&quot;/**&quot;</span>);<br>        sb.append(<span class="hljs-string">&quot; * &quot;</span>);<br>        sb.append(introspectedTable.getFullyQualifiedTable());<br>        innerEnum.addJavaDocLine(sb.toString().replace(<span class="hljs-string">&quot;\n&quot;</span>, <span class="hljs-string">&quot; &quot;</span>));<br>        innerEnum.addJavaDocLine(<span class="hljs-string">&quot; */&quot;</span>);<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 给getter方法加注释</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> method</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> introspectedTable</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> introspectedColumn</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addGetterComment</span><span class="hljs-params">(Method method, IntrospectedTable introspectedTable,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 IntrospectedColumn introspectedColumn)</span> </span>&#123;<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 给setter方法加注释</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> method</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> introspectedTable</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> introspectedColumn</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addSetterComment</span><span class="hljs-params">(Method method, IntrospectedTable introspectedTable,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 IntrospectedColumn introspectedColumn)</span> </span>&#123;<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 普通方法的注释，这里主要是XXXMapper.java里面的接口方法的注释</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> method</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> introspectedTable</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addGeneralMethodComment</span><span class="hljs-params">(Method method, IntrospectedTable introspectedTable)</span></span><br><span class="hljs-function">    </span>&#123;<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 给Java文件加注释，这个注释是在文件的顶部，也就是package上面。</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> compilationUnit</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addJavaFileComment</span><span class="hljs-params">(CompilationUnit compilationUnit)</span> </span>&#123;<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Mybatis的Mapper.xml文件里面的注释</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> xmlElement</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addComment</span><span class="hljs-params">(XmlElement xmlElement)</span> </span>&#123;<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 此方法为其添加了自定义javadoc标签。</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> javaElement</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> markAsDoNotDelete</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addJavadocTag</span><span class="hljs-params">(JavaElement javaElement, <span class="hljs-keyword">boolean</span> markAsDoNotDelete)</span> </span>&#123;<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 为调用此方法作为根元素的第一个子节点添加注释。</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> xmlElement</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addRootComment</span><span class="hljs-params">(XmlElement xmlElement)</span> </span>&#123;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addGeneralMethodAnnotation</span><span class="hljs-params">(Method method, IntrospectedTable</span></span><br><span class="hljs-params"><span class="hljs-function">            introspectedTable, Set&lt;FullyQualifiedJavaType&gt; set)</span> </span>&#123;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addGeneralMethodAnnotation</span><span class="hljs-params">(Method method, IntrospectedTable</span></span><br><span class="hljs-params"><span class="hljs-function">            introspectedTable, IntrospectedColumn introspectedColumn, Set&lt;FullyQualifiedJavaType&gt; set)</span></span><br><span class="hljs-function">    </span>&#123;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addFieldAnnotation</span><span class="hljs-params">(Field field, IntrospectedTable introspectedTable,</span></span><br><span class="hljs-params"><span class="hljs-function">                                   Set&lt;FullyQualifiedJavaType&gt; set)</span> </span>&#123;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addFieldAnnotation</span><span class="hljs-params">(Field field, IntrospectedTable introspectedTable,</span></span><br><span class="hljs-params"><span class="hljs-function">                                   IntrospectedColumn introspectedColumn, Set&lt;FullyQualifiedJavaType&gt; set)</span> </span>&#123;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addClassAnnotation</span><span class="hljs-params">(InnerClass innerClass, IntrospectedTable</span></span><br><span class="hljs-params"><span class="hljs-function">            introspectedTable, Set&lt;FullyQualifiedJavaType&gt; set)</span> </span>&#123;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h4><p>然后使用 mybatis-generator 接口。双击就行。</p>
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20210721091625293.png" srcset="/img/loading.gif" lazyload alt="image-20210721091625293"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/MyBatis/">MyBatis</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/21/%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E8%A6%81%E7%82%B9/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">面试复习要点</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/20/%E5%9F%BA%E4%BA%8EHexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2%E5%88%B0github/">
+                        <span class="hidden-mobile">基于Hexo搭建个人博客部署到github</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"enable":true,"appId":"5CfOLIefyoLFMEX7jYWyO7Eo-gzGzoHsz","appKey":"4XjKvAxcqwFIHPJVdMGwfgY4","placeholder":"说点什么","path":"window.location.pathname","avatar":"retro","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"requiredFields":[]},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

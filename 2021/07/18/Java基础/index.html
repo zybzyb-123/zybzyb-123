@@ -1,0 +1,717 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="专注于分享开发经验的博客网站。">
+  <meta name="author" content="Yibo Zhao">
+  <meta name="keywords" content="">
+  
+  <title>Java基础 - Zhaoio</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://gitee.com/zyb_01_01/blog-images/raw/master/img/004.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Java基础">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Yibo Zhao
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-18 09:05" pubdate>
+        2021年7月18日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      26
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Java基础</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Java基础"><a href="#Java基础" class="headerlink" title="Java基础"></a>Java基础</h1><h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><h3 id="List：可重复"><a href="#List：可重复" class="headerlink" title="List：可重复"></a>List：可重复</h3><p>非常常用的数据类型，是有序的Collection。</p>
+<blockquote>
+<p>ArrayList：基于数组实现，增删慢，查询快，线程不安全</p>
+<blockquote>
+<p>是使用最广泛的List实现类，提供<code>add</code> <code>remove</code> <code>get</code> 功能</p>
+<p>必须连续存储，导致中间插入和删除时的代价高，更适合随机查询和遍历的操作</p>
+<p>不需要定义数组长度，在长度不够时，ArrayList会创建一个更大的数组并把原有的数据复制到新的数组中</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>Vector：基于数组实现，增删慢，查询快，线程安全</p>
+<blockquote>
+<p>支持线程同步，即同一时刻只允许一个线程对Vector进行操作</p>
+<p>但是需要对Vector实例进行频繁的加锁和解锁操作，效率低</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>LinkedList：基于双向链表实现，增删快，查询慢，线程不安全</p>
+<blockquote>
+<p>查询时，需要从头结点一直遍历到该节点，所以速度慢</p>
+</blockquote>
+</blockquote>
+<h3 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h3><ul>
+<li>ArrayBlockingQueue：基于数组数据结构实现的有界阻塞队列</li>
+<li>LinkendBlockingQueue：基于链表数据结构实现的有界阻塞队列</li>
+<li>PriorityBlockingQueue：支持优先级排序的无界阻塞队列</li>
+<li>DelayQueue：支持延迟操作的无界阻塞队列</li>
+<li>SynchronousQueue：用于线程同步的阻塞队列</li>
+<li>LinkedTransferQueue：基于链表数据结构实现的无界阻塞队列</li>
+<li>LinkedBlockingDeque：基于链表数据结构实现的双向阻塞队列</li>
+</ul>
+<h3 id="Set-不可重复"><a href="#Set-不可重复" class="headerlink" title="Set 不可重复"></a>Set 不可重复</h3><p>核心特性是独一无二，适用于存储无序且值不相等的元素。</p>
+<blockquote>
+<p>HashSet：HashMap实现，无序</p>
+<blockquote>
+<p>存放的是散列值，按照元素的散列值来存取元素</p>
+<p>hashCode方法、equals方法来判断是否为同一元素</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>TreeSet：二叉树实现</p>
+<blockquote>
+<p>每添加一个元素，都会按照指定顺序排序</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>LinkHashSet：继承HashSet，HashMap实现数据存储，双向链表记录顺序</p>
+<blockquote>
+<p>实现较简单，提供四个构造方法，在底层构造一个LinkedHashMap来记录数据访问</p>
+<p>其他相关操作与父类相同，直接调用父类方法即可</p>
+</blockquote>
+</blockquote>
+<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><blockquote>
+<p>HashMap：数组+链表存储数据，线程不安全</p>
+<blockquote>
+<p>基于键的HashCode值唯一标识一条数据，可以快速地更新和查询数据</p>
+<p>可使用synchronizedMap方法使HashMap具有安全的线程</p>
+<p>Java8对此进行优化，当元素超过8个后，HashMap会将链表结构转换为红黑树结构来提高查询效率</p>
+<p>常用参数：</p>
+<ul>
+<li>capacity：当前数组容量，默认16,可以扩容两倍</li>
+<li>loadFactor：负载因子，0.75</li>
+<li>threshold：扩容的阈值，值为上面两参数乘积</li>
+</ul>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>ConcurrentHashMap：分段锁实现，线程安全</p>
+<blockquote>
+<p>由多个Segmen组成（segmen的数量也是锁的并发度）</p>
+<p>concurrentLevel参数表示并行级别，默认16</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>HashTable：线程安全</p>
+<blockquote>
+<p>遗留类，很多映射的常用功能都与HashMap类似，线程安全，并发性不如ConcurrentHashMap</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>TreeMap：基于二叉树数据结构</p>
+<blockquote>
+<p>默认按键值的升序排序，常用于实现排序的映射列表</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>LinkedHashMap：继承HashMap，使用链表保存插入顺序</p>
+<blockquote>
+<p>当通过Iterator遍历LinkedHashMap时，会按照元素的插入顺序访问元素</p>
+</blockquote>
+</blockquote>
+<h2 id="异常分类及处理"><a href="#异常分类及处理" class="headerlink" title="异常分类及处理"></a>异常分类及处理</h2><h3 id="异常的概念"><a href="#异常的概念" class="headerlink" title="异常的概念"></a>异常的概念</h3><p>异常指在方法不能按照正常方式完成时，可以通过抛出异常的方式退出方法，在异常中封装了方法执行过程中的错误及原因，调用方可以在获取异常后根据业务的情况处理该异常或者继续抛出该异常。</p>
+<h3 id="异常分类"><a href="#异常分类" class="headerlink" title="异常分类"></a>异常分类</h3><p>Throwable是所有错误和异常的父类，error有AWTError、ThreadDeath，Exception分为RuntimException和CheckedException</p>
+<ul>
+<li>RuntimeException：JVM正常运行期间抛出异常，可以捕获并处理<ul>
+<li>NullPointerException</li>
+<li>ClassCastException</li>
+<li>ArrayIndexOutOfBundsException等</li>
+</ul>
+</li>
+<li>CheckedException：编译阶段会检查异常biang强制程序捕获和处理此类异常，即<code>try catch</code> <ul>
+<li>IOException</li>
+<li>SQLException</li>
+<li>ClassNotFoundException等</li>
+</ul>
+</li>
+</ul>
+<h3 id="异常处理方式"><a href="#异常处理方式" class="headerlink" title="异常处理方式"></a>异常处理方式</h3><ul>
+<li>抛出异常<ul>
+<li>不进行处理，抛给调用者，调用者根据情况处理</li>
+<li>三种形式：<ul>
+<li>throws：作用方法上</li>
+<li>throw：作用方法内</li>
+<li>系统自动抛出异常</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用<code>try catch</code> 捕获并处理异常<ul>
+<li>有针对性处理异常</li>
+</ul>
+</li>
+</ul>
+<h2 id="反射机制"><a href="#反射机制" class="headerlink" title="反射机制"></a>反射机制</h2><h3 id="动态语言的概念"><a href="#动态语言的概念" class="headerlink" title="动态语言的概念"></a>动态语言的概念</h3><p>动态语言指运行时可以改变结构的语言</p>
+<ul>
+<li>JS、Python、Ruby等都属于动态语言</li>
+<li>C、C++不属于动态语言</li>
+<li>从反射角度来说，Java属于半动态语言</li>
+</ul>
+<h3 id="反射机制的概念"><a href="#反射机制的概念" class="headerlink" title="反射机制的概念"></a>反射机制的概念</h3><p>在程序运行中，对任意一个雷都能获取其所有属性和方法，并且对任意一个对象都能调用其任意一个方法。</p>
+<h3 id="反射的应用"><a href="#反射的应用" class="headerlink" title="反射的应用"></a>反射的应用</h3><p>Java中对象有两种类型：编译时类型和运行时类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">Person person = <span class="hljs-keyword">new</span> Student();<br></code></pre></td></tr></table></figure>
+
+<p>编译时为Person，运行时为Student；</p>
+<p>因此，程序在编译时无法预测对象和类的真实信息，只能通过运行时信息来发现该对象和类的真实信息，而真实信息通常通过反射机制来获取，这便是Java语言中反射机制的核心功能。</p>
+<h3 id="Java的常用反射API"><a href="#Java的常用反射API" class="headerlink" title="Java的常用反射API"></a>Java的常用反射API</h3><ul>
+<li>Class类：用于获取类的属性、方法等信息</li>
+<li>Field类：表示类的成员变量，用于获取和设置类的属性值</li>
+<li>Method类：表示类的方法，用于获取方法的描述信息或者执行某个方法</li>
+<li>Constructor类：表示类的构造方法。</li>
+</ul>
+<h3 id="反射的步骤"><a href="#反射的步骤" class="headerlink" title="反射的步骤"></a>反射的步骤</h3><ul>
+<li><p>获取想要操作的类的Class对象，该Class对象是反射的核心，通过他可以调用类的任意方法</p>
+<ul>
+<li><p>调用某个对象的getClass方法以获取该类对应的Class对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">Person person = <span class="hljs-keyword">new</span> Person();<br>Class clazz = person.getClass();<br></code></pre></td></tr></table></figure></li>
+<li><p>调用某个类的class属性以获取该类对应的Class对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">Class clazz = person.class;<br></code></pre></td></tr></table></figure></li>
+<li><p>调用Class类中的forName静态方法以获取该类的Class对象，这是最安全。性能最好的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">Class clazz = Class.forName(<span class="hljs-string">&quot;fullClasspath&quot;</span>);<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>调用Class对象所对应的类中定义的方法，这是反射的使用阶段</p>
+</li>
+<li><p>使用反射API来获取并调用类的属性和方法等信息</p>
+</li>
+</ul>
+<h3 id="创建对象的两种方式"><a href="#创建对象的两种方式" class="headerlink" title="创建对象的两种方式"></a>创建对象的两种方式</h3><ul>
+<li>使用Class对象的newInstance方法创建Class对象的实例</li>
+<li>先使用Class对象获取指定的Constructor对象，再调用Constructor对象的newInstance方法创建Class对象的实例</li>
+</ul>
+<h3 id="Method-的-invoke-方法"><a href="#Method-的-invoke-方法" class="headerlink" title="Method 的 invoke 方法"></a>Method 的 invoke 方法</h3><ul>
+<li>获取Method对象：调用Class的getMethod方法，</li>
+<li>调用invoke方法：动态执行函数</li>
+</ul>
+<h2 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h2><h3 id="注解的概念"><a href="#注解的概念" class="headerlink" title="注解的概念"></a>注解的概念</h3><p>注解是Java提供的设置程序中元素的关联信息和元数据的方法，它是一个接口，程序可以通过反射获取指定程序中元素的注解对象，然后通过该注解对象获取注解中的元数据信息。</p>
+<h3 id="标准元注解"><a href="#标准元注解" class="headerlink" title="标准元注解"></a>标准元注解</h3><p>元注解负责注解其他注解。</p>
+<ul>
+<li>@Target：说明了注解所修饰的对象范围</li>
+<li>@Retention：定义了该注解被保留的级别，即在什么级别有效</li>
+<li>@Documented：表明该注解应该被javadoc工具记录，因此可以被javadoc类的工具文档化</li>
+<li>@Inherited：标记注解，表明某个注解是被继承的</li>
+</ul>
+<h3 id="注解处理器"><a href="#注解处理器" class="headerlink" title="注解处理器"></a>注解处理器</h3><ul>
+<li>定义注解接口   <code>@interface</code></li>
+<li>使用注解接口   <code>@+接口名</code></li>
+<li>定义注解处理器</li>
+</ul>
+<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>静态内部类通过<code>外部类.静态内部类</code> 调用</p>
+<p>和外部类关系密切且不依赖外部类实例的类，可以使用静态内部类实现。</p>
+<h3 id="成员内部类"><a href="#成员内部类" class="headerlink" title="成员内部类"></a>成员内部类</h3><p>定义在类内部的非静态类叫做成员内部类，不能定义静态方法和变量（除final）</p>
+<h3 id="局部内部类"><a href="#局部内部类" class="headerlink" title="局部内部类"></a>局部内部类</h3><p>定义在方法中的类叫做局部内部类，当一个类只需要在某个方法中使用某个特定的类时，可以通过局部类实现</p>
+<h3 id="匿名内部李"><a href="#匿名内部李" class="headerlink" title="匿名内部李"></a>匿名内部李</h3><p>通过接口或继承的方式直接定义并使用的类，没有<code>class</code> 关键字</p>
+<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><h3 id="泛型标记和泛型限定"><a href="#泛型标记和泛型限定" class="headerlink" title="泛型标记和泛型限定"></a>泛型标记和泛型限定</h3><ul>
+<li>E：Element，在集合中使用，表示在集合中存放的元素</li>
+<li>T：Type，表示Java类，包括基本的类和我们自定义的类</li>
+<li>K：Key，表示键，比如Map的key</li>
+<li>V：Value，表示值</li>
+<li>N：Number，表示数值类型</li>
+<li>？：表示不确定的Java类型</li>
+</ul>
+<p><strong>1、对泛型上限的限定：<code>&lt;? extends T&gt;</code></strong></p>
+<ul>
+<li>表示该通配符所代表的类型是T类的子类或者接口T的子接口</li>
+</ul>
+<p><strong>2、对泛型下限的限定：<code>&lt;? super T&gt;</code></strong></p>
+<ul>
+<li>表示该通配符所代表的类型是T类de父类或者父接口</li>
+</ul>
+<h3 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h3><p>泛型方法是将方法的参数类型定义为泛型，以便在调用时接收不同类型的参数。</p>
+<h3 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h3><p>泛型类指在定义类时在类上定义泛型，以便在使用时可以根据传入的不同参数类型实例化不同的对象。</p>
+<h3 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h3><p>和泛型类相似</p>
+<h3 id="类型擦除"><a href="#类型擦除" class="headerlink" title="类型擦除"></a>类型擦除</h3><p>在编码阶段使用泛型时加上的类型参数，会被编译器在编译时去掉，这个过程就被称为类型擦除</p>
+<h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p>序列化常用于持久化对象，RPC（远程过程调用），或者网络传输</p>
+<h3 id="Java-序列化-API-的使用"><a href="#Java-序列化-API-的使用" class="headerlink" title="Java 序列化 API 的使用"></a>Java 序列化 API 的使用</h3><ul>
+<li>实现<code>Serializable</code>接口</li>
+<li>序列化和反序列化必须保持序列化的 ID 一致，一般使用<code>private static final long serialVersionUID</code>定义序列化 ID</li>
+<li>序列化不保存静态变量</li>
+<li>在需要序列化父类变量时，父类也需要实现<code>Serializable</code>接口</li>
+<li>使用<code>Transient</code>关键字可以阻止该变量被序列化，在反序列化后，<code>Transient</code>变量的值被设为对应类型的初始值。</li>
+<li><code>Transient</code>和<code>static</code>修饰的变量不会被序列化</li>
+</ul>
+<h3 id="序列化和反序列化"><a href="#序列化和反序列化" class="headerlink" title="序列化和反序列化"></a>序列化和反序列化</h3><p>在Java生态中有很多优秀的序列化框架。比如：arvo，protobuf，thrift，fastjson</p>
+<p>我们可以基于JDK原生的<code>ObjectOutputStream</code>和<code>ObjectInputStream</code>类实现对象的序列化和反序列化，并调用其writeObject和readObject方法实现自定义序列化策略。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/18/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">分布式缓存的原理及应用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/18/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8F%8A%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">
+                        <span class="hidden-mobile">数据库及分布式事务</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"enable":true,"appId":"5CfOLIefyoLFMEX7jYWyO7Eo-gzGzoHsz","appKey":"4XjKvAxcqwFIHPJVdMGwfgY4","placeholder":"说点什么","path":"window.location.pathname","avatar":"retro","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"requiredFields":[]},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -249,32 +249,29 @@ http协议的第一个版本仅适用于数据信息的简介交换，即仅文�
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/08/21/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%882%EF%BC%89/" target="_self">
-          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/wallhaven-721q7e.jpg" srcset="/img/loading.gif" lazyload alt="面试问题（2）">
+        <a href="/2021/10/11/MySQL%2034%E9%81%93%E7%BB%83%E4%B9%A0%E9%A2%98/" target="_self">
+          <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F012e775b45f872a80121ade05244cd.png%401280w_1l_2o_100sh.png&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1636718386&t=926ab31a6e24b7028a5f81fb5a6c79db" srcset="/img/loading.gif" lazyload alt="MySQL 34道练习题">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/08/21/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%882%EF%BC%89/" target="_self">
-          面试问题（2）
+        <a href="/2021/10/11/MySQL%2034%E9%81%93%E7%BB%83%E4%B9%A0%E9%A2%98/" target="_self">
+          MySQL 34道练习题
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/08/21/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%882%EF%BC%89/" target="_self">
+        <a href="/2021/10/11/MySQL%2034%E9%81%93%E7%BB%83%E4%B9%A0%E9%A2%98/" target="_self">
           
           
             
           
-          面试复盘项目mysql查两个id的数据
-方法一：查询article表 id=2， id=3， id=5 的数据
-
-1SELECT * FROM `article` WHERE INSTR(CONCAT(&#x27;,&#x27;,&#x27;2,3,5&#x27;,&#x27;,&#x27;),CONCAT(&#x27;,&#x27;,id,&#x27;,&#x27;))&gt;0;
-
-
-方法二：
+          MySQL 34道练习题准备工作***dept(部门表)***：
+emp(员工表):
+***salgrade(薪资表)***：
+1、取得每个部门最高薪水的人员名称12345SELECT e.ename,t.* FROM(SELECT deptno,MAX(sal) AS maxsal FROM EMP GROUP BY deptno) tJOIN EMP eON t.deptno=e.deptno
         </a>
       </p>
 
@@ -282,8 +279,8 @@ http协议的第一个版本仅适用于数据信息的简介交换，即仅文�
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-21 19:05" pubdate>
-              2021-08-21
+            <time datetime="2021-10-11 14:10" pubdate>
+              2021-10-11
             </time>
           </div>
         
@@ -291,7 +288,7 @@ http协议的第一个版本仅适用于数据信息的简介交换，即仅文�
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
           </div>
         
@@ -299,64 +296,7 @@ http协议的第一个版本仅适用于数据信息的简介交换，即仅文�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">Java</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/08/21/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%883%EF%BC%89/" target="_self">
-          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/wallhaven-721q7e.jpg" srcset="/img/loading.gif" lazyload alt="面试问题（3）">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/21/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%883%EF%BC%89/" target="_self">
-          面试问题（3）
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/08/21/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%883%EF%BC%89/" target="_self">
-          
-          
-            
-          
-          面试（3）char 和 varchar1、char(n)类型    char类型时定长的类型，即当定义的是char(10)，输入的是”abc”这三个字符时，它们占的空间一样是10个字节，包括7个空字节。当输入的字符长度超过指定的数时，char会截取超出的字符。而且，当存储char值时，MySQL是自动删除输入字符串末尾的空格。
-char是适合存储很短的、一般固定长度的字符串。例如，char非常适合
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-21 19:05" pubdate>
-              2021-08-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
           </div>
         
@@ -484,73 +424,6 @@ char是适合存储很短的、一般固定长度的字符串。例如，char非
               <a href="/tags/Java/">Java</a>
             
               <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/07/22/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89/" target="_self">
-          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/wallhaven-721q7e.jpg" srcset="/img/loading.gif" lazyload alt="面试问题（1）">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/07/22/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89/" target="_self">
-          面试问题（1）
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/07/22/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89/" target="_self">
-          
-          
-            
-          
-          聊半天项目。。。。。（cookie、表的处理 sku、）
-OOM发生场景、怎么排查创建一个 ArrayList，while一直添加数字。
-出现的场景：
-
-局部数组过大。
-指针或者数组越界
-递归调用层次太多（字符串拷贝等）
-
-如何排查：dump 快照文件利用自带的vm等工具分析
-
--xx:+HeapDumpOnOutOfMemoryError 参数可以发生OOM时自动进行dump
-jmap 可以手动
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-07-22 20:10" pubdate>
-              2021-07-22
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
             
           </div>
         
@@ -812,6 +685,130 @@ generator能干什么？
               <a href="/tags/Hexo/">Hexo</a>
             
               <a href="/tags/git/">git</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/07/19/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%883%EF%BC%89/" target="_self">
+          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/wallhaven-721q7e.jpg" srcset="/img/loading.gif" lazyload alt="面试问题（3）">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/19/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%883%EF%BC%89/" target="_self">
+          面试问题（3）
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/19/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%883%EF%BC%89/" target="_self">
+          
+          
+            
+          
+          面试（3）char 和 varchar1、char(n)类型    char类型时定长的类型，即当定义的是char(10)，输入的是”abc”这三个字符时，它们占的空间一样是10个字节，包括7个空字节。当输入的字符长度超过指定的数时，char会截取超出的字符。而且，当存储char值时，MySQL是自动删除输入字符串末尾的空格。
+char是适合存储很短的、一般固定长度的字符串。例如，char非常适合
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-19 19:05" pubdate>
+              2021-07-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/07/18/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89/" target="_self">
+          <img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/wallhaven-721q7e.jpg" srcset="/img/loading.gif" lazyload alt="面试问题（1）">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/07/18/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89/" target="_self">
+          面试问题（1）
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/18/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%EF%BC%881%EF%BC%89/" target="_self">
+          
+          
+            
+          
+          聊半天项目。。。。。（cookie、表的处理 sku、）
+OOM发生场景、怎么排查创建一个 ArrayList，while一直添加数字。
+出现的场景：
+
+局部数组过大。
+指针或者数组越界
+递归调用层次太多（字符串拷贝等）
+
+如何排查：dump 快照文件利用自带的vm等工具分析
+
+-xx:+HeapDumpOnOutOfMemoryError 参数可以发生OOM时自动进行dump
+jmap 可以手动
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-18 20:10" pubdate>
+              2021-07-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
             
           </div>
         

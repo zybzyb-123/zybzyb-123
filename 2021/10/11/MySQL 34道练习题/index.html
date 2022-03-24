@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="专注于分享开发经验的博客网站。">
+  <meta name="author" content="Yibo Zhao">
+  <meta name="keywords" content="">
+  
+  <title>MySQL 34道练习题 - Zhaoio</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://gitee.com/zyb_01_01/blog-images/raw/master/img/future.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="MySQL 34道练习题">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Yibo Zhao
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-11 14:10" pubdate>
+        2021年10月11日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      23
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MySQL 34道练习题</h1>
+            
+            <div class="markdown-body">
+              <h3 id="MySQL-34道练习题"><a href="#MySQL-34道练习题" class="headerlink" title="MySQL 34道练习题"></a>MySQL 34道练习题</h3><h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><p>***dept(部门表)***：<img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20211101113218998.png" srcset="/img/loading.gif" lazyload alt="image-20211101113218998" style="zoom:70%;" /></p>
+<p><em><strong>emp(员工表)</strong></em>:<img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20211101113353510.png" srcset="/img/loading.gif" lazyload alt="image-20211101113353510" style="zoom:67%;" /></p>
+<p>***salgrade(薪资表)***：<img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20211101113448270.png" srcset="/img/loading.gif" lazyload alt="image-20211101113448270" style="zoom:67%;" /></p>
+<h4 id="1、取得每个部门最高薪水的人员名称"><a href="#1、取得每个部门最高薪水的人员名称" class="headerlink" title="1、取得每个部门最高薪水的人员名称"></a>1、取得每个部门最高薪水的人员名称</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> e.ename,t.<span class="hljs-operator">*</span> <br><span class="hljs-keyword">FROM</span><br>(<span class="hljs-keyword">SELECT</span> deptno,<span class="hljs-built_in">MAX</span>(sal) <span class="hljs-keyword">AS</span> maxsal <span class="hljs-keyword">FROM</span> EMP <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> deptno) t<br><span class="hljs-keyword">JOIN</span> EMP e<br><span class="hljs-keyword">ON</span> t.deptno<span class="hljs-operator">=</span>e.deptno <span class="hljs-keyword">AND</span> t.maxsal<span class="hljs-operator">=</span>e.sal;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20211101141919095.png" srcset="/img/loading.gif" lazyload alt="image-20211101141919095"></p>
+<h4 id="2、哪些人在平均薪水之上"><a href="#2、哪些人在平均薪水之上" class="headerlink" title="2、哪些人在平均薪水之上"></a>2、哪些人在平均薪水之上</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> t.<span class="hljs-operator">*</span>,e.ename,e.sal<br><span class="hljs-keyword">FROM</span><br>(<span class="hljs-keyword">SELECT</span> deptno,<span class="hljs-built_in">AVG</span>(sal) <span class="hljs-keyword">AS</span> avgsal <span class="hljs-keyword">FROM</span> EMP <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> deptno) t<br><span class="hljs-keyword">JOIN</span> EMP e<br><span class="hljs-keyword">ON</span> t.deptno<span class="hljs-operator">=</span>e.deptno <span class="hljs-keyword">AND</span> e.sal<span class="hljs-operator">&gt;</span>t.avgsal;<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20211101142651421.png" srcset="/img/loading.gif" lazyload alt="image-20211101142651421"></p>
+<h4 id="3、取得部门中所有人平均的薪水等级"><a href="#3、取得部门中所有人平均的薪水等级" class="headerlink" title="3、取得部门中所有人平均的薪水等级"></a>3、取得部门中所有人平均的薪水等级</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> e.deptno,<span class="hljs-built_in">AVG</span>(s.grade)<br><span class="hljs-keyword">FROM</span> EMP e<br><span class="hljs-keyword">JOIN</span> SALGRADE s<br><span class="hljs-keyword">ON</span> e.sal <span class="hljs-keyword">BETWEEN</span> s.losal <span class="hljs-keyword">AND</span> s.hisal<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> e.deptno;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20211101143559406.png" srcset="/img/loading.gif" lazyload alt="image-20211101143559406"></p>
+<h4 id="4、不用组函数（max），取得最高薪水"><a href="#4、不用组函数（max），取得最高薪水" class="headerlink" title="4、不用组函数（max），取得最高薪水"></a>4、不用组函数（max），取得最高薪水</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> ename,sal <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> sal <span class="hljs-keyword">desc</span> limit <span class="hljs-number">1</span>;<span class="hljs-operator">/</span><span class="hljs-operator">/</span>降序，取第一个<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> sal <span class="hljs-keyword">FROM</span> EMP <span class="hljs-keyword">WHERE</span> sal <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">IN</span><br>(<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> a.sal<br><span class="hljs-keyword">FROM</span> EMP a <br><span class="hljs-keyword">JOIN</span> EMP b<br><span class="hljs-keyword">ON</span> a.sal<span class="hljs-operator">&lt;</span>b.sal);<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>表的自连接。找出a表里面小于b表的工资，distinct代表去重。</p>
+</blockquote>
+<h4 id="5、取得平均薪水最高的部门的部门编号（两种）"><a href="#5、取得平均薪水最高的部门的部门编号（两种）" class="headerlink" title="5、取得平均薪水最高的部门的部门编号（两种）"></a>5、取得平均薪水最高的部门的部门编号（两种）</h4><blockquote>
+<p>降序，取第一个</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> deptno,<span class="hljs-built_in">AVG</span>(sal) <span class="hljs-keyword">AS</span> avgsal<br><span class="hljs-keyword">FROM</span> EMP<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> deptno <br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> avgsal <span class="hljs-keyword">DESC</span> <br>LIMIT <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>组函数</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MAX</span>(t.avgsal)<br><span class="hljs-keyword">FROM</span> <br>(<span class="hljs-keyword">SELECT</span> deptno,<span class="hljs-built_in">AVG</span>(sal) <span class="hljs-keyword">AS</span> avgsal<br><span class="hljs-keyword">FROM</span> EMP<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> deptno ) t;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20211101145647457.png" srcset="/img/loading.gif" lazyload alt="image-20211101145647457"></p>
+<h4 id="6、取得平均薪水最高的部门的部门名称"><a href="#6、取得平均薪水最高的部门的部门名称" class="headerlink" title="6、取得平均薪水最高的部门的部门名称"></a>6、取得平均薪水最高的部门的部门名称</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span><br>d.dname,<span class="hljs-built_in">AVG</span>(e.sal) <span class="hljs-keyword">AS</span> avgsal<br><span class="hljs-keyword">FROM</span> EMP e<br><span class="hljs-keyword">JOIN</span> DEPT d<br><span class="hljs-keyword">ON</span> e.deptno<span class="hljs-operator">=</span>d.deptno<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> d.dname<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> avgsal <span class="hljs-keyword">DESC</span><br>LIMIT <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+
+<h4 id="7、求平均薪水的等级最低的部门的部门名称"><a href="#7、求平均薪水的等级最低的部门的部门名称" class="headerlink" title="7、求平均薪水的等级最低的部门的部门名称"></a>7、求平均薪水的等级最低的部门的部门名称</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> t.<span class="hljs-operator">*</span>,s.grade<br><span class="hljs-keyword">FROM</span><br>(<span class="hljs-keyword">SELECT</span> d.dname,<span class="hljs-built_in">AVG</span>(sal) <span class="hljs-keyword">AS</span> avgsal <span class="hljs-keyword">FROM</span> EMP e <span class="hljs-keyword">JOIN</span> DEPT d <span class="hljs-keyword">ON</span> e.deptno<span class="hljs-operator">=</span>d.deptno <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> d.dname) t<br><span class="hljs-keyword">JOIN</span> SALGRADE s<br><span class="hljs-keyword">ON</span> t.avgsal <span class="hljs-keyword">BETWEEN</span> s.losal <span class="hljs-keyword">AND</span> s.hisal<br><span class="hljs-keyword">WHERE</span> <br>s.grade<span class="hljs-operator">=</span>(<span class="hljs-keyword">SELECT</span> grade <span class="hljs-keyword">FROM</span> SALGRADE <span class="hljs-keyword">WHERE</span>(<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">AVG</span>(sal) <span class="hljs-keyword">AS</span> avgsal<br><span class="hljs-keyword">FROM</span> EMP <br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> deptno<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> avgsal <span class="hljs-keyword">ASC</span><br>LIMIT <span class="hljs-number">1</span>)<span class="hljs-keyword">BETWEEN</span> losal <span class="hljs-keyword">AND</span> hisal);<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20211101153713381.png" srcset="/img/loading.gif" lazyload alt="image-20211101153713381"></p>
+<h4 id="8、取得比普通员工的最高薪水还高的领导人"><a href="#8、取得比普通员工的最高薪水还高的领导人" class="headerlink" title="8、取得比普通员工的最高薪水还高的领导人"></a>8、取得比普通员工的最高薪水还高的领导人</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> ename,sal <span class="hljs-keyword">FROM</span> EMP <span class="hljs-keyword">WHERE</span> sal<span class="hljs-operator">&gt;</span><br>(<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MAX</span>(sal) <span class="hljs-keyword">FROM</span> EMP <span class="hljs-keyword">WHERE</span> empno <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">IN</span><br>(<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> mgr <span class="hljs-keyword">FROM</span> EMP <span class="hljs-keyword">WHERE</span> mgr <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>))<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20211101154502564.png" srcset="/img/loading.gif" lazyload alt="image-20211101154502564"></p>
+<h4 id="9、取得薪水最高的前五员工"><a href="#9、取得薪水最高的前五员工" class="headerlink" title="9、取得薪水最高的前五员工"></a>9、取得薪水最高的前五员工</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> ename,sal <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> sal <span class="hljs-keyword">desc</span> limit <span class="hljs-number">5</span>;<br></code></pre></td></tr></table></figure>
+
+<h4 id="10、取得薪水最高的第6到第10名员工"><a href="#10、取得薪水最高的第6到第10名员工" class="headerlink" title="10、取得薪水最高的第6到第10名员工"></a>10、取得薪水最高的第6到第10名员工</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> ename,sal <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> sal <span class="hljs-keyword">desc</span> limit <span class="hljs-number">5</span>,<span class="hljs-number">5</span>;<br></code></pre></td></tr></table></figure>
+
+<h4 id="11、取得最后入职的五个员工"><a href="#11、取得最后入职的五个员工" class="headerlink" title="11、取得最后入职的五个员工"></a>11、取得最后入职的五个员工</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> ename,hiredate <span class="hljs-keyword">FROM</span> EMP <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> hiredate <span class="hljs-keyword">DESC</span> LIMIT <span class="hljs-number">5</span>;<br></code></pre></td></tr></table></figure>
+
+<h4 id="12、取得每个薪水等级有多少个员工"><a href="#12、取得每个薪水等级有多少个员工" class="headerlink" title="12、取得每个薪水等级有多少个员工"></a>12、取得每个薪水等级有多少个员工</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> s.grade,<span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <br><span class="hljs-keyword">FROM</span> EMP e <br><span class="hljs-keyword">JOIN</span> SALGRADE s <br><span class="hljs-keyword">ON</span> e.sal <span class="hljs-keyword">BETWEEN</span> s.losal <span class="hljs-keyword">AND</span> s.hisal<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> s.grade;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20211103104418850.png" srcset="/img/loading.gif" lazyload alt="image-20211103104418850"></p>
+<h4 id="14、列出所有员工及领导的姓名"><a href="#14、列出所有员工及领导的姓名" class="headerlink" title="14、列出所有员工及领导的姓名"></a>14、列出所有员工及领导的姓名</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> a.ename <span class="hljs-string">&#x27;员工&#x27;</span>,b.ename <span class="hljs-string">&#x27;领导&#x27;</span><br><span class="hljs-keyword">FROM</span> EMP a<br><span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> EMP b<br><span class="hljs-keyword">ON</span> a.mgr<span class="hljs-operator">=</span>b.empno;<br></code></pre></td></tr></table></figure>
+
+<h4 id="15、列出受雇日期早于其直接上级的所有员工编号，姓名，部门名称"><a href="#15、列出受雇日期早于其直接上级的所有员工编号，姓名，部门名称" class="headerlink" title="15、列出受雇日期早于其直接上级的所有员工编号，姓名，部门名称"></a>15、列出受雇日期早于其直接上级的所有员工编号，姓名，部门名称</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> a.ename ‘员工’,a.hiredate,b.ename ‘领导’,b.hiredate,d.dname,d.deptno<br><span class="hljs-keyword">FROM</span> EMP a <span class="hljs-keyword">JOIN</span> EMP b<br><span class="hljs-keyword">ON</span> a.mgr<span class="hljs-operator">=</span>b.empno<br><span class="hljs-keyword">JOIN</span> DEPT d <br><span class="hljs-keyword">ON</span> a.deptno<span class="hljs-operator">=</span>d.deptno<br><span class="hljs-keyword">WHERE</span> a.hiredate<span class="hljs-operator">&lt;</span>b.hiredate <br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20211103110624247.png" srcset="/img/loading.gif" lazyload alt="image-20211103110624247"></p>
+<h4 id="16、-列出部门名称和这些部门的员工信息，同时列出哪些没有员工的部门"><a href="#16、-列出部门名称和这些部门的员工信息，同时列出哪些没有员工的部门" class="headerlink" title="16、 列出部门名称和这些部门的员工信息，同时列出哪些没有员工的部门"></a>16、 列出部门名称和这些部门的员工信息，同时列出哪些没有员工的部门</h4><blockquote>
+<p>left join就是把左边的那个表当主表，right join就是把右边的表当主表</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> e.<span class="hljs-operator">*</span>,d.dname <br><span class="hljs-keyword">FROM</span> EMP e<br><span class="hljs-keyword">RIGHT</span> <span class="hljs-keyword">JOIN</span> DEPT d<br><span class="hljs-keyword">ON</span> e.deptno<span class="hljs-operator">=</span>d.deptno;<br></code></pre></td></tr></table></figure>
+
+<h4 id="17、列出至少有五个员工的所有部门"><a href="#17、列出至少有五个员工的所有部门" class="headerlink" title="17、列出至少有五个员工的所有部门"></a>17、列出至少有五个员工的所有部门</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> e.deptno,<span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-string">&#x27;人数&#x27;</span><br><span class="hljs-keyword">FROM</span> EMP e<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> e.deptno<br><span class="hljs-keyword">HAVING</span> <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>)<span class="hljs-operator">&gt;=</span><span class="hljs-number">5</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zyb_01_01/blog-images/raw/master/img/image-20211103112102120.png" srcset="/img/loading.gif" lazyload alt="image-20211103112102120"></p>
+<h4 id="18、列出薪水比史密斯多的所有员工"><a href="#18、列出薪水比史密斯多的所有员工" class="headerlink" title="18、列出薪水比史密斯多的所有员工"></a>18、列出薪水比史密斯多的所有员工</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> EMP<br><span class="hljs-keyword">WHERE</span> sal<span class="hljs-operator">&gt;</span><br>(<span class="hljs-keyword">SELECT</span> sal<br><span class="hljs-keyword">FROM</span> EMP<br><span class="hljs-keyword">WHERE</span> ename<span class="hljs-operator">=</span><span class="hljs-string">&#x27;SMITH&#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+<h4 id="19、列出所有‘’CLERK‘’的姓名及其部门名称，部门的人数"><a href="#19、列出所有‘’CLERK‘’的姓名及其部门名称，部门的人数" class="headerlink" title="19、列出所有‘’CLERK‘’的姓名及其部门名称，部门的人数"></a>19、列出所有‘’CLERK‘’的姓名及其部门名称，部门的人数</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> t1.<span class="hljs-operator">*</span>,t2.deptcount<br><span class="hljs-keyword">FROM</span> (<span class="hljs-keyword">SELECT</span> e.ename,e.job,d.dname,d.deptno<br>		<span class="hljs-keyword">FROM</span> EMP e<br>		<span class="hljs-keyword">JOIN</span> DEPT d<br>		<span class="hljs-keyword">ON</span> e.deptno<span class="hljs-operator">=</span>d.deptno<br>		<span class="hljs-keyword">WHERE</span> e.job<span class="hljs-operator">=</span><span class="hljs-string">&#x27;clerk&#x27;</span>)t1<br><span class="hljs-keyword">JOIN</span> (<span class="hljs-keyword">SELECT</span> deptno,<span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">AS</span> deptcount <br>     	<span class="hljs-keyword">FROM</span> EMP <br>      	<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> deptno) t2<br><span class="hljs-keyword">ON</span> t1.deptno<span class="hljs-operator">=</span>t2.deptno;<br></code></pre></td></tr></table></figure>
+
+<h4 id="20、列出最低薪水大于1500的各种工作及从事此工作的全部雇员"><a href="#20、列出最低薪水大于1500的各种工作及从事此工作的全部雇员" class="headerlink" title="20、列出最低薪水大于1500的各种工作及从事此工作的全部雇员"></a>20、列出最低薪水大于1500的各种工作及从事此工作的全部雇员</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> e.ename,t.job<br><span class="hljs-keyword">FROM</span> EMP e<br><span class="hljs-keyword">JOIN</span>(<span class="hljs-keyword">SELECT</span> job, <span class="hljs-built_in">MIN</span>(sal)<br>	<span class="hljs-keyword">FROM</span> EMP<br>	<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> job<br>	<span class="hljs-keyword">HAVING</span> <span class="hljs-built_in">MIN</span>(sal)<span class="hljs-operator">&gt;</span><span class="hljs-number">1500</span>) t<br><span class="hljs-keyword">ON</span> e.job<span class="hljs-operator">=</span>t.job<br></code></pre></td></tr></table></figure>
+
+<h4 id="21、列出部门在“销售部”工作的员工的姓名，假定不知道销售部的部门编号"><a href="#21、列出部门在“销售部”工作的员工的姓名，假定不知道销售部的部门编号" class="headerlink" title="21、列出部门在“销售部”工作的员工的姓名，假定不知道销售部的部门编号"></a>21、列出部门在“销售部”工作的员工的姓名，假定不知道销售部的部门编号</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> e.ename<br><span class="hljs-keyword">FROM</span> EMP e<br><span class="hljs-keyword">JOIN</span> <br>(<span class="hljs-keyword">SELECT</span> deptno <span class="hljs-keyword">FROM</span> DEPT <span class="hljs-keyword">WHERE</span> dname<span class="hljs-operator">=</span><span class="hljs-string">&#x27;SALES&#x27;</span>) t<br><span class="hljs-keyword">ON</span> e.deptno<span class="hljs-operator">=</span>t.deptno<br></code></pre></td></tr></table></figure>
+
+<h4 id="22、列出薪水高于公司平均水平的所有员工，所在部门，上级领导，雇员的工资等级"><a href="#22、列出薪水高于公司平均水平的所有员工，所在部门，上级领导，雇员的工资等级" class="headerlink" title="22、列出薪水高于公司平均水平的所有员工，所在部门，上级领导，雇员的工资等级"></a>22、列出薪水高于公司平均水平的所有员工，所在部门，上级领导，雇员的工资等级</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span><br>e.ename <span class="hljs-string">&#x27;员工&#x27;</span>,d.dname,l.ename <span class="hljs-string">&#x27;领导&#x27;</span>,s.grade<br><span class="hljs-keyword">FROM</span> EMP e<br><span class="hljs-keyword">JOIN</span> DEPT d<br><span class="hljs-keyword">ON</span> e.deptno<span class="hljs-operator">=</span>d.deptno<br><span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> EMP l<br><span class="hljs-keyword">ON</span> e.mgr<span class="hljs-operator">=</span>l.empno<br><span class="hljs-keyword">JOIN</span> SALGRADE s<br><span class="hljs-keyword">ON</span> e.sal <span class="hljs-keyword">BETWEEN</span> s.losal <span class="hljs-keyword">AND</span> s.hisal<br><span class="hljs-keyword">WHERE</span> e.sal<span class="hljs-operator">&gt;</span>(<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">AVG</span>(sal) <span class="hljs-keyword">FROM</span> EMP);<br></code></pre></td></tr></table></figure>
+
+<h4 id="23、列出与‘scott’从事相同工作的所有员工及部门名称"><a href="#23、列出与‘scott’从事相同工作的所有员工及部门名称" class="headerlink" title="23、列出与‘scott’从事相同工作的所有员工及部门名称"></a>23、列出与‘scott’从事相同工作的所有员工及部门名称</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> e.ename,e.job,d.dname<br><span class="hljs-keyword">FROM</span> EMP e<br><span class="hljs-keyword">JOIN</span> DEPT d<br><span class="hljs-keyword">ON</span> e.deptno<span class="hljs-operator">=</span>d.deptno<br><span class="hljs-keyword">WHERE</span><br>job<span class="hljs-operator">=</span>(<span class="hljs-keyword">SELECT</span> job <span class="hljs-keyword">FROM</span> EMP <span class="hljs-keyword">WHERE</span> ename<span class="hljs-operator">=</span><span class="hljs-string">&#x27;SCOTT&#x27;</span>)<br><span class="hljs-keyword">AND</span><br>e.ename <span class="hljs-operator">&lt;&gt;</span> <span class="hljs-string">&#x27;scott&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<h4 id="24、列出薪水等于部门30中员工的薪水的其他员工的姓名和薪水"><a href="#24、列出薪水等于部门30中员工的薪水的其他员工的姓名和薪水" class="headerlink" title="24、列出薪水等于部门30中员工的薪水的其他员工的姓名和薪水"></a>24、列出薪水等于部门30中员工的薪水的其他员工的姓名和薪水</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span><br>ename,sal<br><span class="hljs-keyword">FROM</span><br>EMP<br><span class="hljs-keyword">WHERE</span><br>sal <span class="hljs-keyword">IN</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> sal <span class="hljs-keyword">FROM</span> EMP <span class="hljs-keyword">WHERE</span> deptno <span class="hljs-operator">=</span> <span class="hljs-number">30</span>) <br><span class="hljs-keyword">AND</span> deptno <span class="hljs-operator">&lt;&gt;</span> <span class="hljs-number">30</span>;<br></code></pre></td></tr></table></figure>
+
+<h4 id="25、列出薪水高于部门30工作的所有员工的薪水的员工姓名额薪水，部门名称"><a href="#25、列出薪水高于部门30工作的所有员工的薪水的员工姓名额薪水，部门名称" class="headerlink" title="25、列出薪水高于部门30工作的所有员工的薪水的员工姓名额薪水，部门名称"></a>25、列出薪水高于部门30工作的所有员工的薪水的员工姓名额薪水，部门名称</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span><br>e.ename,e.sal,d.dname<br><span class="hljs-keyword">FROM</span><br>EMP e<br><span class="hljs-keyword">JOIN</span> DEPT d<br><span class="hljs-keyword">ON</span> e.deptno<span class="hljs-operator">=</span>d.deptno <br><span class="hljs-keyword">WHERE</span><br>e.sal <span class="hljs-operator">&gt;</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MAX</span>(sal) <span class="hljs-keyword">FROM</span> EMP <span class="hljs-keyword">WHERE</span> deptno <span class="hljs-operator">=</span> <span class="hljs-number">30</span>);<br></code></pre></td></tr></table></figure>
+
+<h4 id="26、列出在每个部门工作的员工数量，平均工资和平均服务期限"><a href="#26、列出在每个部门工作的员工数量，平均工资和平均服务期限" class="headerlink" title="26、列出在每个部门工作的员工数量，平均工资和平均服务期限"></a>26、列出在每个部门工作的员工数量，平均工资和平均服务期限</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> d.<span class="hljs-operator">*</span>,<span class="hljs-built_in">COUNT</span>(e.ename),<span class="hljs-built_in">AVG</span>(e.sal)<br><span class="hljs-keyword">FROM</span> EMP e<br><span class="hljs-keyword">RIGHT</span> <span class="hljs-keyword">JOIN</span> DEPT d<br><span class="hljs-keyword">ON</span> e.deptno<span class="hljs-operator">=</span>d.deptno<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> d.deptno,d.dname,d.loc;<br></code></pre></td></tr></table></figure>
+
+<p>未完待续</p>
+<h4 id="27、列出所有员工的姓名、部门名称和工资"><a href="#27、列出所有员工的姓名、部门名称和工资" class="headerlink" title="27、列出所有员工的姓名、部门名称和工资"></a>27、列出所有员工的姓名、部门名称和工资</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span><br>e.ename,d.dname,e.sal<br><span class="hljs-keyword">FROM</span><br>EMP e<br><span class="hljs-keyword">JOIN</span><br>DEPT d<br><span class="hljs-keyword">ON</span><br>e.deptno<span class="hljs-operator">=</span>d.deptno;<br></code></pre></td></tr></table></figure>
+
+<h4 id="28、列出所有部门的详细信息和人数"><a href="#28、列出所有部门的详细信息和人数" class="headerlink" title="28、列出所有部门的详细信息和人数"></a>28、列出所有部门的详细信息和人数</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> d.<span class="hljs-operator">*</span>,<span class="hljs-built_in">COUNT</span>(e.ename),<span class="hljs-built_in">AVG</span>(e.sal)<br><span class="hljs-keyword">FROM</span> EMP e<br><span class="hljs-keyword">RIGHT</span> <span class="hljs-keyword">JOIN</span> DEPT d<br><span class="hljs-keyword">ON</span> e.deptno<span class="hljs-operator">=</span>d.deptno<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> d.deptno,d.dname,d.loc;<br></code></pre></td></tr></table></figure>
+
+<h4 id="29、列出各种工作的最低工资以及从事此工作的雇员姓名"><a href="#29、列出各种工作的最低工资以及从事此工作的雇员姓名" class="headerlink" title="29、列出各种工作的最低工资以及从事此工作的雇员姓名"></a>29、列出各种工作的最低工资以及从事此工作的雇员姓名</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> e.ename,t.<span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> EMP e<br><span class="hljs-keyword">JOIN</span><br>(<span class="hljs-keyword">SELECT</span> job, <span class="hljs-built_in">MIN</span>(sal) <span class="hljs-keyword">AS</span> minsal<br><span class="hljs-keyword">FROM</span> EMP<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> job) t<br><span class="hljs-keyword">ON</span> e.job<span class="hljs-operator">=</span>t.job <span class="hljs-keyword">AND</span> e.sal<span class="hljs-operator">=</span>t.minsal<br></code></pre></td></tr></table></figure>
+
+<h4 id="30、列出所有员工的年工资，按年薪从低到高排序"><a href="#30、列出所有员工的年工资，按年薪从低到高排序" class="headerlink" title="30、列出所有员工的年工资，按年薪从低到高排序"></a>30、列出所有员工的年工资，按年薪从低到高排序</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> ename,sal<span class="hljs-operator">*</span><span class="hljs-number">12</span> <span class="hljs-keyword">AS</span> yearsal<br><span class="hljs-keyword">FROM</span> EMP<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> yearsal <span class="hljs-keyword">ASC</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>(sal+ifnull(comm,0))*12 as yearsal</p>
+</blockquote>
+<h4 id="31、列出各个部门的manager的最低薪水"><a href="#31、列出各个部门的manager的最低薪水" class="headerlink" title="31、列出各个部门的manager的最低薪水"></a>31、列出各个部门的manager的最低薪水</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> deptno, <span class="hljs-built_in">MIN</span>(sal)<br><span class="hljs-keyword">FROM</span> EMP<br><span class="hljs-keyword">WHERE</span> job<span class="hljs-operator">=</span><span class="hljs-string">&#x27;manager&#x27;</span><br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> deptno;<br></code></pre></td></tr></table></figure>
+
+<h4 id="32、求出员工领导的薪水超过3000的员工名称与领导"><a href="#32、求出员工领导的薪水超过3000的员工名称与领导" class="headerlink" title="32、求出员工领导的薪水超过3000的员工名称与领导"></a>32、求出员工领导的薪水超过3000的员工名称与领导</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> a.ename <span class="hljs-string">&#x27;员工&#x27;</span>,b.ename <span class="hljs-string">&#x27;领导&#x27;</span><br><span class="hljs-keyword">FROM</span> EMP a<br><span class="hljs-keyword">JOIN</span> EMP b<br><span class="hljs-keyword">ON</span> a.mgr<span class="hljs-operator">=</span>b.empno<br><span class="hljs-keyword">WHERE</span> a.sal<span class="hljs-operator">&gt;</span><span class="hljs-number">3000</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="33、求出部门名称中，含’s’字符的部门员工的工资合计、部门人数"><a href="#33、求出部门名称中，含’s’字符的部门员工的工资合计、部门人数" class="headerlink" title="33、求出部门名称中，含’s’字符的部门员工的工资合计、部门人数"></a>33、求出部门名称中，含’s’字符的部门员工的工资合计、部门人数</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> d.dname,<span class="hljs-built_in">COUNT</span>(e.ename),<span class="hljs-built_in">SUM</span>(e.sal)<br><span class="hljs-keyword">FROM</span> DEPT d<br><span class="hljs-keyword">JOIN</span> EMP e<br><span class="hljs-keyword">ON</span> d.deptno<span class="hljs-operator">=</span>e.deptno<br><span class="hljs-keyword">WHERE</span> e.ename <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;%S%&#x27;</span><br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> d.dname;<br></code></pre></td></tr></table></figure>
+
+<h4 id="34、给任期日期超过三十年的员工加薪10"><a href="#34、给任期日期超过三十年的员工加薪10" class="headerlink" title="34、给任期日期超过三十年的员工加薪10%"></a>34、给任期日期超过三十年的员工加薪10%</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql">UPDATE EMP <br><span class="hljs-keyword">SET</span> sal<span class="hljs-operator">=</span>sal<span class="hljs-operator">*</span><span class="hljs-number">1.1</span> <br><span class="hljs-keyword">WHERE</span> <br>TIMESTAMPDIFF(<span class="hljs-keyword">YEAR</span>,hiredate,NOW())<span class="hljs-operator">&gt;</span><span class="hljs-number">30</span>;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/11/HTTP%20HTTPS%20DNS%E5%8D%8F%E8%AE%AE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HTTP、HTTPS、DNS协议</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/11/%E6%89%8B%E5%86%99%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
+                        <span class="hidden-mobile">手写单例模式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"enable":true,"appId":"5CfOLIefyoLFMEX7jYWyO7Eo-gzGzoHsz","appKey":"4XjKvAxcqwFIHPJVdMGwfgY4","placeholder":"说点什么","path":"window.location.pathname","avatar":"retro","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"requiredFields":[]},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
